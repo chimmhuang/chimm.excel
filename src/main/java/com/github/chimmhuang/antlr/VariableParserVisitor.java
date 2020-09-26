@@ -1,5 +1,5 @@
 // Generated from /Users/huangshuai/IdeaProjects/chimm_excel/src/main/java/com/github/chimmhuang/parser/VariableParser.g4 by ANTLR 4.8
-package com.github.chimmhuang.parser;
+package com.github.chimmhuang.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**

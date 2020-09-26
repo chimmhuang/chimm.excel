@@ -1,9 +1,6 @@
 package com.github.chimmhuang.antlr;
 
-import com.github.chimmhuang.parser.ExcelVariableParserVisitor;
-import com.github.chimmhuang.parser.VariableParserLexer;
-import com.github.chimmhuang.parser.VariableParserParser;
-import com.github.chimmhuang.parser.VariableParserParser.ExprContext;
+import com.github.chimmhuang.antlr.VariableParserParser.ExprContext;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;

@@ -1,15 +1,15 @@
-package com.github.chimmhuang.parser;
+package com.github.chimmhuang.antlr;
 
-import com.github.chimmhuang.parser.VariableParserParser.AddSubContext;
-import com.github.chimmhuang.parser.VariableParserParser.ArrayIdxContext;
-import com.github.chimmhuang.parser.VariableParserParser.ExprContext;
-import com.github.chimmhuang.parser.VariableParserParser.LiterContext;
-import com.github.chimmhuang.parser.VariableParserParser.MulDivContext;
-import com.github.chimmhuang.parser.VariableParserParser.ParensContext;
-import com.github.chimmhuang.parser.VariableParserParser.QualifiedNameContext;
-import com.github.chimmhuang.parser.VariableParserParser.VarContext;
-import com.github.chimmhuang.parser.VariableParserParser.VariableContext;
-import com.github.chimmhuang.parser.VariableParserParser.VariableExprContext;
+import com.github.chimmhuang.antlr.VariableParserParser.AddSubContext;
+import com.github.chimmhuang.antlr.VariableParserParser.ArrayIdxContext;
+import com.github.chimmhuang.antlr.VariableParserParser.ExprContext;
+import com.github.chimmhuang.antlr.VariableParserParser.LiterContext;
+import com.github.chimmhuang.antlr.VariableParserParser.MulDivContext;
+import com.github.chimmhuang.antlr.VariableParserParser.ParensContext;
+import com.github.chimmhuang.antlr.VariableParserParser.QualifiedNameContext;
+import com.github.chimmhuang.antlr.VariableParserParser.VarContext;
+import com.github.chimmhuang.antlr.VariableParserParser.VariableContext;
+import com.github.chimmhuang.antlr.VariableParserParser.VariableExprContext;
 import com.github.chimmhuang.util.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
