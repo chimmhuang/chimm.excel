@@ -11,25 +11,26 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class InnerTable {
 
+    /**
+     * key - row-number. start from 1
+     * value - Row{@link Row}
+     */
     private final Map<Integer, Row> rowMap = new ConcurrentHashMap<>();
 
     public InnerTable(XSSFSheet xssfSheet) {
         Iterator<org.apache.poi.ss.usermodel.Row> rowIterator = xssfSheet.rowIterator();
         rowIterator.forEachRemaining(row -> {
-            int rowIndex = row.getRowNum();
             Map<Integer, Cell> colCellMap = new ConcurrentHashMap<>();
             Iterator<org.apache.poi.ss.usermodel.Cell> cellIterator = row.cellIterator();
-            cellIterator.forEachRemaining(cell -> {
-                colCellMap.put(cell.getColumnIndex(), new Cell(cell));
-            });
-            rowMap.put(row.getRowNum(), new Row(colCellMap));
+            cellIterator.forEachRemaining(cell -> colCellMap.put(cell.getColumnIndex() + 1, new Cell(cell)));
+            rowMap.put(row.getRowNum() + 1, new Row(colCellMap));
         });
     }
 
     /**
-     * get the specified row by row-index
+     * get the specified row by row-number
      */
-    public Row getRow(int rowIndex) {
-        return rowMap.get(rowIndex);
+    public Row getRow(int rowNum) {
+        return rowMap.get(rowNum);
     }
 }

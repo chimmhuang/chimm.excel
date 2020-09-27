@@ -9,6 +9,10 @@ import java.util.Map;
  */
 public class Row {
 
+    /**
+     * key - col-number. start from 1
+     * value - Row{@link Row}
+     */
     private final Map<Integer, Cell> colCellMap;
 
     public Row(Map<Integer, Cell> colCellMap) {
@@ -16,8 +20,8 @@ public class Row {
     }
 
     /**
-     * get the cell of the row by cell index. cell index start from 0
-     * @param cellNum cell index. start from 0
+     * get the cell of the row by cell index. cell index start from 1
+     * @param cellNum cell index. start from 1
      */
     public Cell getCell(int cellNum) {
         return colCellMap.get(cellNum);

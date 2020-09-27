@@ -3,9 +3,6 @@ package com.github.chimmhuang.tablemodel;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
 /**
  * @author Chimm Huang
  */
@@ -13,9 +10,8 @@ public class ExcelWorkbook {
 
     private final XSSFWorkbook xssfWorkbook;
 
-    public ExcelWorkbook(byte[] buf) throws IOException {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(buf);
-        this.xssfWorkbook = new XSSFWorkbook(byteArrayInputStream);
+    public ExcelWorkbook(XSSFWorkbook xssfWorkbook) {
+        this.xssfWorkbook = xssfWorkbook;
     }
 
     /**
