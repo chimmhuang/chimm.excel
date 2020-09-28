@@ -1,80 +1,58 @@
 package com.github.chimmhuang.demo;
 
+import com.github.chimmhuang.antlr.ExcelVariableParserVisitor;
+import com.github.chimmhuang.antlr.VariableParserLexer;
+import com.github.chimmhuang.antlr.VariableParserParser;
+import com.github.chimmhuang.antlr.VariableParserParser.ExprContext;
+import com.github.chimmhuang.parser.TableDataHelper;
+import com.github.chimmhuang.tablemodel.Cell;
+import com.github.chimmhuang.tablemodel.ExcelWorkbook;
+import com.github.chimmhuang.tablemodel.InnerTable;
+import com.github.chimmhuang.tablemodel.Row;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.commons.io.FileUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.util.CellAddress;
-import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.xssf.usermodel.XSSFComment;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFTable;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 /**
  * @author Chimm Huang
- * @date 2020/9/22
  */
 public class Demo {
 
     @Test
     public void test() throws Exception {
-        File file = new File("src/main/resources/demo.xlsx");
+        File file = new File("src/test/resources/demo.xlsx");
 
         byte[] bytes = FileUtils.readFileToByteArray(file);
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
 
-        XSSFWorkbook workbook = new XSSFWorkbook(byteArrayInputStream);
+        ExcelWorkbook excelWorkbook = TableDataHelper.createWorkbook(bytes);
 
-        XSSFSheet sheet = workbook.getSheetAt(1);
+        InnerTable sheet = excelWorkbook.getSheet(0);
 
-        Iterator<Row> rowIterator = sheet.rowIterator();
-        while (rowIterator.hasNext()) {
-            Row row = rowIterator.next();
-            Iterator<Cell> cellIterator = row.cellIterator();
-            while (cellIterator.hasNext()) {
-                Cell cell = cellIterator.next();
-                System.out.println(cell);
+        Row row = sheet.getRow(2);
 
-//                switch (cell.getCellType()) {
-//                    case STRING:
-//                        System.out.println("row:" + cell.getRowIndex() + " col:" + cell.getColumnIndex() + " value:" + cell.getStringCellValue());
-//                        break;
-//                    default:break;
-//                }
-            }
+        Cell cell = row.getCell("N");
 
-        }
+        String value = cell.getValue();
+        System.out.println(value);
 
-//        for (XSSFTable table : sheet.getTables()) {
-//            System.out.println(table);
-//            for (CellReference allReferencedCell : table.getCellReferences().getAllReferencedCells()) {
-//                System.out.println(allReferencedCell.getSheetName());
-//            }
-//        }
+        // 词法解析
+        VariableParserLexer lexer = new VariableParserLexer(CharStreams.fromString(value));
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-//        for (Entry<CellAddress, XSSFComment> entry : sheet.getCellComments().entrySet()) {
-//            CellAddress cellAddress = entry.getKey();
-//            XSSFComment xssfComment = entry.getValue();
-//            System.out.println("row:" + cellAddress.getRow() + " col:" + cellAddress.getColumn() + " value: " + xssfComment.getString());
-//        }
+        // 语法解析
+        VariableParserParser parser = new VariableParserParser(tokens);
+        ExprContext tree = parser.expr();
 
+        // 以 lisp 格式打印 AST
+        System.out.println(tree.toString(parser));
 
-//        int lastRowNum = sheet.getLastRowNum();
-//        for (int i = 0; i <= lastRowNum; i++) {
-//            XSSFRow row = sheet.getRow(i);
-//            System.out.println(row.getCell(0).getStringCellValue() + " -- 最后一列：" + row.getLastCellNum());
-//        }
+        System.out.println(tree.getText());
 
+        ExcelVariableParserVisitor visitor = new ExcelVariableParserVisitor();
+        Object visit = visitor.visit(tree);
+        System.out.println(visit);
     }
 }
