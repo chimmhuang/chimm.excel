@@ -11,6 +11,7 @@ import com.github.chimmhuang.antlr.VariableParserParser.VarContext;
 import com.github.chimmhuang.antlr.VariableParserParser.VariableContext;
 import com.github.chimmhuang.antlr.VariableParserParser.VariableExprContext;
 import com.github.chimmhuang.util.NumberUtils;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +35,11 @@ public class ExcelVariableParserVisitor extends VariableParserBaseVisitor<Object
     }
 
     public ExcelVariableParserVisitor() {
+    }
+
+    @Override
+    public Object visit(ParseTree tree) {
+        return super.visit(tree);
     }
 
     /**

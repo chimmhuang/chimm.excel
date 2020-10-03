@@ -1,6 +1,8 @@
 package com.github.chimmhuang.tablemodel;
 
 /**
+ * This class corresponds to each [cell] of excel.
+ *
  * @author Chimm Huang
  */
 public class Cell {

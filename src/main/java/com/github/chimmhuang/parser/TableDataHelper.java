@@ -1,5 +1,6 @@
 package com.github.chimmhuang.parser;
 
+import com.github.chimmhuang.tablemodel.Cell;
 import com.github.chimmhuang.tablemodel.ExcelWorkbook;
 import com.github.chimmhuang.tablemodel.InnerTable;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -42,5 +43,17 @@ public class TableDataHelper {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook(byteArrayInputStream);
         return new InnerTable(xssfWorkbook.getSheet(sheetName));
+    }
+
+    /**
+     * fill variables into excel table
+     * @param table excel sheet table
+     * @param data params
+     */
+    public static void fillInData(InnerTable table, Object data) {
+        for (Cell cell : table) {
+            
+            System.out.println(cell.getValue());
+        }
     }
 }

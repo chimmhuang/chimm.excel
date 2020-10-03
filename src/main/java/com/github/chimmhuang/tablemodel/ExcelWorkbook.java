@@ -4,6 +4,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
+ * this class corresponds to the entire excel [workbook].
+ *
  * @author Chimm Huang
  */
 public class ExcelWorkbook {

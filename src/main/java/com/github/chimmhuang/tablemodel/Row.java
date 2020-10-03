@@ -2,12 +2,15 @@ package com.github.chimmhuang.tablemodel;
 
 import com.github.chimmhuang.util.TableUtils;
 
+import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * this class corresponds to each [row] of Excel.
+ *
  * @author Chimm Huang
  */
-public class Row {
+public class Row implements Iterable<Cell> {
 
     /**
      * key - col-number. start from 1
@@ -33,5 +36,13 @@ public class Row {
     public Cell getCell(String cellName) {
         Integer colIndex = TableUtils.getColIndex(cellName);
         return this.getCell(colIndex);
+    }
+
+    /**
+     * traverse all cells in the row
+     */
+    @Override
+    public Iterator<Cell> iterator() {
+        return colCellMap.values().iterator();
     }
 }
