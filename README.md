@@ -1,7 +1,7 @@
 # chimm.excel —— 设置模板，填充数据，就完事儿了~
 <p align="left">
-	<img src='https://img.shields.io/github/license/chimmhuang/chimm.excel' alt='lisence'></img>
-	<img src="https://img.shields.io/badge/JDK-1.8%2B-red" alt='jdk'></img>
+	<img src='https://img.shields.io/badge/license-Apache--2.0-brightgreen' alt='lisence'></img>
+	<img src="https://img.shields.io/badge/JDK-1.8%2B-9cf" alt='jdk'></img>
 	<img src="https://img.shields.io/badge/Antlr-4-critical" alt='antlr4'></img>
 </p>
 
