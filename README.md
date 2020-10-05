@@ -1,5 +1,8 @@
 # chimm.excel —— 设置模板，填充数据，就完事儿了~
-# 正在开发中...敬请期待！！
+<p align="left">
+	<img src='https://img.shields.io/github/license/chimmhuang/chimm.excel' alt='lisence'></img>
+	<img src="https://img.shields.io/badge/JDK-1.8%2B-red" alt='jdk'></img>
+</p>
 
 ## 1. 项目介绍
 
@@ -18,24 +21,42 @@
 - 稍微多一点工作量（基本都在模板设置上，设置好了就ok了）
 
 
-如何制作模板？非常简单，模板的制作方式可以参照：
-1. xxx
-2. xxx
+如何制作模板？非常简单，使用`$`符号定义变量即可，如： `${demo.list[0].name}`，具体可以参照`src/test/java/resources/demo.xlsx`
 
 ## 2. 起步
-1. 生成模板
+1. 配置模板
 2. 导入坐标
-3. 定义模板数据
-4. 填充模板
-5. demo 代码
+```
+// 等待上传。。。
+```
+3. 如何使用？
+```java
+@Test
+public void testFillInTable() throws Exception {
+    // 获取文件的二进制
+    File file = new File("src/test/resources/demo.xlsx");
+    byte[] bytes = FileUtils.readFileToByteArray(file);
+
+    // 通过 TableDataHelper 获取 excel 表格对象
+    ExcelWorkbook excelWorkbook = TableDataHelper.createWorkbook(bytes);
+
+    // 获取指定的 sheet 页
+    InnerTable table = excelWorkbook.getSheet(0);
+
+    // 封装表格数据对象
+    SchoolReportData tableData = new SchoolReportData();
+
+    tableData.setTitle("中和中学成绩单");
+    // ... 填充数据 ...
+    // ...
+    
+    // 将封装好的表格对象，填充到 excel 表格中
+    TableDataHelper.fillInData(table, tableData);
+
+    // 将表格对象转换为二进制，resultBytes 即是最终想要的结果
+    byte[] resultBytes = TableDataHelper.convert2Byte(excelWorkbook);
+}
+```
 
 ## 3. 开源协议
-
-1.0 版本待开发功能
-- [ ] 读取模板信息，将模板信息存入Table类
-- [ ] 保存模板的变量信息，用于填充数据（暂不支持List，后期支持。后期可能会考虑使用antlr4）
-- [ ] 替换模板变量，输出结果表格
-- [ ] 新增工作簿的一些操作，如：新增sheet页
-- [ ] 新增表格的一些操作。如：新增一行
-- [ ] 新增行的一些操作，如：设置一行的单元格样式
-- [ ] 新增单元格的一些操作，如：单元格加粗
+[Apache 2.0](LICENSE) © Chimm Huang
