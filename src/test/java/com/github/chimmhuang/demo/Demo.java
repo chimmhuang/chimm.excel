@@ -18,12 +18,12 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Chimm Huang
@@ -44,11 +44,11 @@ public class Demo {
 
         Cell cell = row.getCell("A");
 
-        String value = cell.getValue();
+        Object value = cell.getValue();
         System.out.println(value);
 
         // 词法解析
-        VariableParserLexer lexer = new VariableParserLexer(CharStreams.fromString(value));
+        VariableParserLexer lexer = new VariableParserLexer(CharStreams.fromString(value.toString()));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
         // 语法解析
@@ -73,10 +73,12 @@ public class Demo {
 
         ExcelWorkbook excelWorkbook = TableDataHelper.createWorkbook(bytes);
 
-        InnerTable sheet = excelWorkbook.getSheet(0);
+        InnerTable table = excelWorkbook.getSheet(0);
 
         // define table data
         SchoolReportData tableData = new SchoolReportData();
+
+        tableData.setTitle("中和中学成绩单");
 
         GradesRanking gradesRanking = new GradesRanking();
         Score top1 = new Score("李华", BigDecimal.valueOf(285), BigDecimal.valueOf(90), BigDecimal.valueOf(95), BigDecimal.valueOf(100));
@@ -106,6 +108,19 @@ public class Demo {
 
         tableData.setPrincipalComment("允德允能");
 
-        TableDataHelper.fillInData(sheet, tableData);
+        TableDataHelper.fillInData(table, tableData);
+
+        byte[] bytes1 = TableDataHelper.convert2Byte(excelWorkbook);
+
+        // 获取桌面路径
+        FileSystemView fsv = FileSystemView.getFileSystemView();
+        String desktop = fsv.getHomeDirectory().getPath();
+        String filePath = desktop + "/template.xlsx";
+
+        File targetFile = new File(filePath);
+        FileOutputStream fos = new FileOutputStream(targetFile);
+        fos.write(bytes1);
+
+        fos.close();
     }
 }
