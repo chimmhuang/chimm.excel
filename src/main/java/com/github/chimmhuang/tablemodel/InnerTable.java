@@ -2,6 +2,8 @@ package com.github.chimmhuang.tablemodel;
 
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +20,7 @@ public class InnerTable implements Iterable<Cell> {
      * value - Row{@link Row}
      */
     private final Map<Integer, Row> rowMap = new ConcurrentHashMap<>();
+    private XSSFSheet xssfSheet;
 
     /**
      * the last row num in excel.
@@ -26,9 +29,10 @@ public class InnerTable implements Iterable<Cell> {
     private int lastRowNum = 0;
 
     public InnerTable(XSSFSheet xssfSheet) {
+        this.xssfSheet = xssfSheet;
         Iterator<org.apache.poi.ss.usermodel.Row> rowIterator = xssfSheet.rowIterator();
         rowIterator.forEachRemaining(row -> {
-            lastRowNum = Math.max(lastRowNum, row.getRowNum());
+            lastRowNum = Math.max(lastRowNum, row.getRowNum() + 1);
             Map<Integer, Cell> colCellMap = new ConcurrentHashMap<>();
             Iterator<org.apache.poi.ss.usermodel.Cell> cellIterator = row.cellIterator();
             cellIterator.forEachRemaining(cell -> colCellMap.put(cell.getColumnIndex() + 1, new Cell(cell)));
@@ -98,6 +102,15 @@ public class InnerTable implements Iterable<Cell> {
                 return currentCellIterator.next();
             }
             return null;
+        }
+    }
+
+    public byte[] getBytes() {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            this.xssfSheet.getWorkbook().write(bos);
+            return bos.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

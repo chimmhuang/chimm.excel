@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class SchoolReportData {
 
+    private String title;
     private GradesRanking gradesRanking;
     private List<String> hotCommentsList;
     private List<ClassScore> classScoreList;
@@ -42,5 +43,13 @@ public class SchoolReportData {
 
     public void setPrincipalComment(String principalComment) {
         this.principalComment = principalComment;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
