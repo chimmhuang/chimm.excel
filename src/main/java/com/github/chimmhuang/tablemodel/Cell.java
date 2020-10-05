@@ -26,17 +26,26 @@ public class Cell {
             default:
             case _NONE:
             case STRING:
-            case FORMULA:
                 return cell.getStringCellValue();
             case NUMERIC:
                 return cell.getNumericCellValue();
             case BOOLEAN:
                 return cell.getBooleanCellValue();
+            case FORMULA:
+                return cell.getCellFormula();
             case ERROR:
                 return cell.getErrorCellValue();
             case BLANK:
                 return null;
         }
+    }
+
+    public org.apache.poi.ss.usermodel.Cell getPoiCell() {
+        return cell;
+    }
+
+    public void setCellFormula(String cellFormula) {
+        cell.setCellFormula(cellFormula);
     }
 
     public void setValue(Object value) {

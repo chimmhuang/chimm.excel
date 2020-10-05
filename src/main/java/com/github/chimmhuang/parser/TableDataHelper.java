@@ -78,6 +78,9 @@ public class TableDataHelper {
             }
 
             // insert formula
+            if (value instanceof String && ((String) value).startsWith("=")) {
+                cell.setCellFormula((String) value);
+            }
         }
     }
 
