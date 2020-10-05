@@ -59,5 +59,8 @@ public void testFillInTable() throws Exception {
 }
 ```
 
-## 3. 开源协议
+## 3. 参与贡献
+非常欢迎你的加入！[提一个 Issue](https://github.com/chimmhuang/chimm.excel/issues/new) 或者提交一个 Pull Request。
+
+## 4. 开源协议
 [Apache 2.0](LICENSE) © Chimm Huang
