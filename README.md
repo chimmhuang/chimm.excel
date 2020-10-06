@@ -1,13 +1,22 @@
 # chimm.excel —— 设置模板，填充数据，就完事儿了~
 <p align="left">
-	<img src='https://img.shields.io/badge/license-Apache--2.0-brightgreen' alt='lisence'></img>
-	<img src="https://img.shields.io/badge/JDK-1.8%2B-9cf" alt='jdk'></img>
+	<img src='https://img.shields.io/badge/License-Apache--2.0-brightgreen' alt='lisence'></img>
+	<img src="https://img.shields.io/badge/JDK-1.8-9cf" alt='jdk'></img>
+	<img src="https://img.shields.io/badge/Apache--POI-4.1.2-blue" alt='poi'></img>
 	<img src="https://img.shields.io/badge/Antlr-4-critical" alt='antlr4'></img>
 </p>
 
 ## 1. 项目介绍
 
 该项目是基于 `Apache POI` 和 `Antlr4` 打造的 excel 生成的工具。我们需要准备什么？一个待填充数据的 excel 模板即可。
+
+功能介绍：
+- [x] 导出excel二进制文件
+- [x] 根据模板中的变量，将值写入
+- [ ] 操作表格添加/减少一行（row）
+- [ ] 合并单元格
+- [ ] 更改单元格部分样式（如：单元格加粗）
+- [ ] 更改单元格部分字体样式
 
 应用场景：
 - 导出表格数据
@@ -20,7 +29,6 @@
 
 缺点：
 - 稍微多一点工作量（基本都在模板设置上，设置好了就ok了）
-
 
 如何制作模板？非常简单，使用`$`符号定义变量即可，如： `${demo.list[0].name}`，具体可以参照`src/test/java/resources/demo.xlsx`
 
