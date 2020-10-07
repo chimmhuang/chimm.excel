@@ -48,7 +48,7 @@ public void testFillInTable() throws Exception {
     File file = new File("src/test/resources/demo.xlsx");
     byte[] bytes = FileUtils.readFileToByteArray(file);
 
-    // 通过 TableDataHelper 获取 excel 表格对象
+    // 通过 ExcelHelper 获取 excel 表格对象
     ExcelWorkbook excelWorkbook = ExcelHelper.createWorkbook(bytes);
 
     // 获取指定的 sheet 页
