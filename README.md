@@ -49,7 +49,7 @@ public void testFillInTable() throws Exception {
     byte[] bytes = FileUtils.readFileToByteArray(file);
 
     // 通过 TableDataHelper 获取 excel 表格对象
-    ExcelWorkbook excelWorkbook = TableDataHelper.createWorkbook(bytes);
+    ExcelWorkbook excelWorkbook = ExcelHelper.createWorkbook(bytes);
 
     // 获取指定的 sheet 页
     InnerTable table = excelWorkbook.getSheet(0);
@@ -62,10 +62,10 @@ public void testFillInTable() throws Exception {
     // ...
     
     // 将封装好的表格对象，填充到 excel 表格中
-    TableDataHelper.fillInData(table, tableData);
+    ExcelHelper.fillInData(table, tableData);
 
     // 将表格对象转换为二进制，resultBytes 即是最终想要的结果
-    byte[] resultBytes = TableDataHelper.convert2Byte(excelWorkbook);
+    byte[] resultBytes = ExcelHelper.convert2Byte(excelWorkbook);
 }
 ```
 
