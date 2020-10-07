@@ -22,9 +22,9 @@ import java.util.List;
 /**
  * @author Chimm Huang
  */
-public class TableDataHelper {
+public class ExcelHelper {
 
-    private TableDataHelper() { }
+    private ExcelHelper() { }
 
     /**
      * create excel workbook

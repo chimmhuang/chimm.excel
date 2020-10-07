@@ -4,7 +4,7 @@ import com.github.chimmhuang.antlr.ExcelVariableParserVisitor;
 import com.github.chimmhuang.antlr.VariableParserLexer;
 import com.github.chimmhuang.antlr.VariableParserParser;
 import com.github.chimmhuang.antlr.VariableParserParser.ExprContext;
-import com.github.chimmhuang.parser.TableDataHelper;
+import com.github.chimmhuang.parser.ExcelHelper;
 import com.github.chimmhuang.school.ClassScore;
 import com.github.chimmhuang.school.GradesRanking;
 import com.github.chimmhuang.school.SchoolReportData;
@@ -36,7 +36,7 @@ public class Demo {
 
         byte[] bytes = FileUtils.readFileToByteArray(file);
 
-        ExcelWorkbook excelWorkbook = TableDataHelper.createWorkbook(bytes);
+        ExcelWorkbook excelWorkbook = ExcelHelper.createWorkbook(bytes);
 
         InnerTable sheet = excelWorkbook.getSheet(0);
 
@@ -71,7 +71,7 @@ public class Demo {
 
         byte[] bytes = FileUtils.readFileToByteArray(file);
 
-        ExcelWorkbook excelWorkbook = TableDataHelper.createWorkbook(bytes);
+        ExcelWorkbook excelWorkbook = ExcelHelper.createWorkbook(bytes);
 
         InnerTable table = excelWorkbook.getSheet(0);
 
@@ -108,9 +108,9 @@ public class Demo {
 
         tableData.setPrincipalComment("允德允能");
 
-        TableDataHelper.fillInData(table, tableData);
+        ExcelHelper.fillInData(table, tableData);
 
-        byte[] bytes1 = TableDataHelper.convert2Byte(excelWorkbook);
+        byte[] bytes1 = ExcelHelper.convert2Byte(excelWorkbook);
 
         // 获取桌面路径
         FileSystemView fsv = FileSystemView.getFileSystemView();
