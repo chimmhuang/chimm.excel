@@ -89,7 +89,9 @@ public class TableDataHelper {
      */
     public static byte[] convert2Byte(ExcelWorkbook workbook) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-            workbook.getXssfWorkbook().write(bos);
+            XSSFWorkbook xssfWorkbook = workbook.getXssfWorkbook();
+            xssfWorkbook.setForceFormulaRecalculation(true);
+            xssfWorkbook.write(bos);
             return bos.toByteArray();
         } catch (IOException e) {
             throw new RuntimeException(e);
