@@ -1,6 +1,6 @@
 package com.github.chimmhuang.tablemodel;
 
-import com.github.chimmhuang.util.TableUtils;
+import com.github.chimmhuang.parser.ExcelHelper;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -13,29 +13,41 @@ import java.util.Map;
 public class Row implements Iterable<Cell> {
 
     /**
-     * key - col-number. start from 1
+     * row-num. start from 1
+     */
+    private int rowNum;
+    private boolean zeroHeight;
+    private float heightInPoints;
+    private short height;
+
+    /**
+     * key - col-name.
      * value - Row{@link Row}
      */
-    private final Map<Integer, Cell> colCellMap;
+    private final Map<String, Cell> colCellMap;
 
-    public Row(Map<Integer, Cell> colCellMap) {
+    public Row(org.apache.poi.ss.usermodel.Row row, Map<String, Cell> colCellMap) {
+        rowNum = row.getRowNum() + 1;
+        zeroHeight = row.getZeroHeight();
+        heightInPoints = row.getHeightInPoints();
+        height = row.getHeight();
         this.colCellMap = colCellMap;
     }
 
     /**
-     * get the cell of the row by cell index. cell index start from 1
-     * @param cellNum cell index. start from 1
+     * get the cell of the row by cell index. cell index start from 0
+     *
+     * @param cellIndex cell index. start from 0
      */
-    public Cell getCell(int cellNum) {
-        return colCellMap.get(cellNum);
+    public Cell getCell(int cellIndex) {
+        return colCellMap.get(ExcelHelper.getColName(cellIndex));
     }
 
     /**
      * get the cell of the row by cell name
      */
     public Cell getCell(String cellName) {
-        Integer colIndex = TableUtils.getColIndex(cellName);
-        return this.getCell(colIndex);
+        return colCellMap.get(cellName);
     }
 
     /**
@@ -44,5 +56,21 @@ public class Row implements Iterable<Cell> {
     @Override
     public Iterator<Cell> iterator() {
         return colCellMap.values().iterator();
+    }
+
+    public boolean getZeroHeight() {
+        return zeroHeight;
+    }
+
+    public float getHeightInPoints() {
+        return heightInPoints;
+    }
+
+    public short getHeight() {
+        return height;
+    }
+
+    public int getRowNum() {
+        return rowNum;
     }
 }

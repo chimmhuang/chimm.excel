@@ -1,20 +1,13 @@
 package com.github.chimmhuang.demo;
 
-import com.github.chimmhuang.antlr.ExcelVariableParserVisitor;
-import com.github.chimmhuang.antlr.VariableParserLexer;
-import com.github.chimmhuang.antlr.VariableParserParser;
-import com.github.chimmhuang.antlr.VariableParserParser.ExprContext;
 import com.github.chimmhuang.parser.ExcelHelper;
 import com.github.chimmhuang.school.ClassScore;
 import com.github.chimmhuang.school.GradesRanking;
 import com.github.chimmhuang.school.SchoolReportData;
 import com.github.chimmhuang.school.Score;
-import com.github.chimmhuang.tablemodel.Cell;
 import com.github.chimmhuang.tablemodel.ExcelWorkbook;
 import com.github.chimmhuang.tablemodel.InnerTable;
 import com.github.chimmhuang.tablemodel.Row;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
@@ -31,48 +24,12 @@ import java.util.List;
 public class Demo {
 
     @Test
-    public void test() throws Exception {
-        File file = new File("src/test/resources/demo.xlsx");
-
-        byte[] bytes = FileUtils.readFileToByteArray(file);
-
-        ExcelWorkbook excelWorkbook = ExcelHelper.createWorkbook(bytes);
-
-        InnerTable sheet = excelWorkbook.getSheet(0);
-
-        Row row = sheet.getRow(1);
-
-        Cell cell = row.getCell("A");
-
-        Object value = cell.getValue();
-        System.out.println(value);
-
-        // 词法解析
-        VariableParserLexer lexer = new VariableParserLexer(CharStreams.fromString(value.toString()));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-        // 语法解析
-        VariableParserParser parser = new VariableParserParser(tokens);
-        ExprContext tree = parser.expr();
-
-        // 以 lisp 格式打印 AST
-        System.out.println(tree.toString(parser));
-
-        System.out.println(tree.getText());
-
-        ExcelVariableParserVisitor visitor = new ExcelVariableParserVisitor();
-        Object visit = visitor.visit(tree);
-        System.out.println(visit);
-    }
-
-    @Test
     public void testFillInTable() throws Exception {
         File file = new File("src/test/resources/demo.xlsx");
 
         byte[] bytes = FileUtils.readFileToByteArray(file);
 
         ExcelWorkbook excelWorkbook = ExcelHelper.createWorkbook(bytes);
-
         InnerTable table = excelWorkbook.getSheet(0);
 
         // define table data
@@ -108,9 +65,26 @@ public class Demo {
 
         tableData.setPrincipalComment("允德允能");
 
+//        Row row13 = table.getRow(13);
+//        Row row14 = table.getRow(14);
+//
+//
+//        Row row15 = table.appendRow(row13);
+//        row15.getCell("C").setValue("你好");
+//
+//        Row row16 = table.appendRow(row13);
+//        row16.getCell("C").setValue("我不好");
+//        table.appendRow(row13);
+//        table.appendRow(row14);
+//
+//        table.removeRow(row13);
+//        table.removeRow(14);
+
         ExcelHelper.fillInData(table, tableData);
 
-        byte[] bytes1 = ExcelHelper.convert2Byte(excelWorkbook);
+
+
+        byte[] bytes1 = ExcelHelper.convert2Byte(table);
 
         // 获取桌面路径
         FileSystemView fsv = FileSystemView.getFileSystemView();

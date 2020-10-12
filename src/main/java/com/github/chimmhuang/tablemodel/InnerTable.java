@@ -1,10 +1,12 @@
 package com.github.chimmhuang.tablemodel;
 
+import com.github.chimmhuang.parser.ExcelHelper;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,7 +22,18 @@ public class InnerTable implements Iterable<Cell> {
      * value - Row{@link Row}
      */
     private final Map<Integer, Row> rowMap = new ConcurrentHashMap<>();
-    private XSSFSheet xssfSheet;
+
+    /**
+     * key - col-index. start from 0
+     * value - width
+     */
+    private final Map<Integer, Integer> colWidthMap = new ConcurrentHashMap<>();
+
+
+    private final String sheetName;
+
+    private final List<CellRangeAddress> mergedRegions;
+
 
     /**
      * the last row num in excel.
@@ -29,15 +42,26 @@ public class InnerTable implements Iterable<Cell> {
     private int lastRowNum = 0;
 
     public InnerTable(XSSFSheet xssfSheet) {
-        this.xssfSheet = xssfSheet;
+        mergedRegions = xssfSheet.getMergedRegions();
+
+        sheetName = xssfSheet.getSheetName();
         Iterator<org.apache.poi.ss.usermodel.Row> rowIterator = xssfSheet.rowIterator();
         rowIterator.forEachRemaining(row -> {
             lastRowNum = Math.max(lastRowNum, row.getRowNum() + 1);
-            Map<Integer, Cell> colCellMap = new ConcurrentHashMap<>();
+            Map<String, Cell> colCellMap = new ConcurrentHashMap<>();
             Iterator<org.apache.poi.ss.usermodel.Cell> cellIterator = row.cellIterator();
-            cellIterator.forEachRemaining(cell -> colCellMap.put(cell.getColumnIndex() + 1, new Cell(cell)));
-            rowMap.put(row.getRowNum() + 1, new Row(colCellMap));
+            cellIterator.forEachRemaining(cell -> {
+                int columnIndex = cell.getColumnIndex();
+                colCellMap.put(ExcelHelper.getColName(columnIndex), new Cell((XSSFCell) cell));
+                colWidthMap.put(columnIndex, xssfSheet.getColumnWidth(columnIndex));
+            });
+            Row descRow = new Row(row, colCellMap);
+            rowMap.put(row.getRowNum() + 1, descRow);
         });
+    }
+
+    public String getSheetName() {
+        return sheetName;
     }
 
     /**
@@ -50,6 +74,60 @@ public class InnerTable implements Iterable<Cell> {
     public int getLastRowNum() {
         return lastRowNum;
     }
+
+    /**
+     * remove the row whose row number is greater than or equal to the specified rowNum
+     * @param rowNum row-num
+     */
+    public void removeRow(int rowNum) {
+        // remove row
+        Row row = rowMap.get(rowNum);
+        this.removeRow(row);
+    }
+
+    /**
+     * todo
+     * @param row
+     */
+    public void removeRow(Row row) {
+//        // remove row
+//        XSSFRow srcXssfRow = row.getXssfRow();
+//        this.xssfSheet.removeRow(srcXssfRow);
+//
+//        rowList.remove(row);
+//
+//        // recalculate the last row num
+//        lastRowNum--;
+//
+//        rowMap = IntStream.range(0, rowList.size()).boxed().collect(Collectors.toConcurrentMap(i -> i + 1, rowList::get));
+    }
+
+    /**
+     * todo: append a row at the end
+     *
+     * @param srcRow source row{@link Row}
+     * @return desc row
+     */
+    public Row appendRow(Row srcRow) {
+//        XSSFRow srcXssfRow = srcRow.getXssfRow();
+//
+//        XSSFRow newRow = this.xssfSheet.createRow(lastRowNum);
+//        newRow.copyRowFrom(srcXssfRow, new CellCopyPolicy());
+//
+//        Map<String, Cell> colCellMap = new ConcurrentHashMap<>();
+//        Iterator<org.apache.poi.ss.usermodel.Cell> cellIterator = newRow.cellIterator();
+//        cellIterator.forEachRemaining(cell -> colCellMap.put(getColName(cell.getColumnIndex()), new Cell((XSSFCell) cell)));
+//        Row descRow = new Row(colCellMap);
+//        rowMap.put(++lastRowNum, descRow);
+//        rowMap = IntStream.range(0, rowList.size()).boxed().collect(Collectors.toConcurrentMap(i -> i + 1, rowList::get));
+//        return descRow;
+        return null;
+    }
+
+    public Iterator<Row> rowIterator() {
+        return rowMap.values().iterator();
+    }
+
 
     @Override
     public Iterator<Cell> iterator() {
@@ -105,12 +183,11 @@ public class InnerTable implements Iterable<Cell> {
         }
     }
 
-    public byte[] getBytes() {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-            this.xssfSheet.getWorkbook().write(bos);
-            return bos.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public Map<Integer, Integer> getColWidthMap() {
+        return colWidthMap;
+    }
+
+    public List<CellRangeAddress> getMergedRegions() {
+        return mergedRegions;
     }
 }

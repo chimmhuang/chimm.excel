@@ -1,12 +1,9 @@
 package com.github.chimmhuang.tablemodel;
 
-import org.apache.poi.ss.usermodel.RichTextString;
+import com.github.chimmhuang.parser.ExcelHelper;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * This class corresponds to each [cell] of excel.
@@ -15,64 +12,81 @@ import java.util.Date;
  */
 public class Cell {
 
-    private final org.apache.poi.ss.usermodel.Cell cell;
+    private int row;
+    private String col;
+    private CellStyle cellStyle;
+    private CellType cellType;
+    private Object value;
 
-    public Cell(org.apache.poi.ss.usermodel.Cell cell) {
-        this.cell = cell;
-    }
-
-    public Object getValue() {
-        switch (cell.getCellType()) {
+    public Cell(XSSFCell xssfCell) {
+        this.row = xssfCell.getRowIndex() + 1;
+        this.col = ExcelHelper.getColName(xssfCell.getColumnIndex());
+        this.cellStyle = new CellStyle(xssfCell.getCellStyle());
+        this.cellType = xssfCell.getCellType();
+        switch (cellType) {
             default:
             case _NONE:
             case STRING:
-                return cell.getStringCellValue();
-            case NUMERIC:
-                return cell.getNumericCellValue();
-            case BOOLEAN:
-                return cell.getBooleanCellValue();
-            case FORMULA:
-                return cell.getCellFormula();
-            case ERROR:
-                return cell.getErrorCellValue();
             case BLANK:
-                return null;
+                this.value = xssfCell.getStringCellValue();
+                break;
+            case NUMERIC:
+                this.value = xssfCell.getNumericCellValue();
+                break;
+            case BOOLEAN:
+                this.value = xssfCell.getBooleanCellValue();
+                break;
+            case FORMULA:
+                this.value = xssfCell.getCellFormula();
+                break;
+            case ERROR:
+                this.value = xssfCell.getErrorCellValue();
+                break;
         }
-    }
-
-    public org.apache.poi.ss.usermodel.Cell getPoiCell() {
-        return cell;
     }
 
     public void setCellFormula(String cellFormula) {
-        cell.setCellFormula(cellFormula);
+        this.value = cellFormula;
+        this.cellType = CellType.FORMULA;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public String getCol() {
+        return col;
+    }
+
+    public void setCol(String col) {
+        this.col = col;
+    }
+
+    public CellStyle getCellStyle() {
+        return cellStyle;
+    }
+
+    public void setCellStyle(CellStyle cellStyle) {
+        this.cellStyle = cellStyle;
+    }
+
+    public CellType getCellType() {
+        return cellType;
+    }
+
+    public void setCellType(CellType cellType) {
+        this.cellType = cellType;
+    }
+
+    public Object getValue() {
+        return value;
     }
 
     public void setValue(Object value) {
-        if (value == null) {
-            return;
-        }
-
-        if (value instanceof Double) {
-            cell.setCellValue((Double) value);
-        } else if (value instanceof BigDecimal) {
-            cell.setCellValue(((BigDecimal) value).doubleValue());
-        } else if (value instanceof String) {
-            cell.setCellValue(value.toString());
-        } else if (value instanceof Boolean) {
-            cell.setCellValue((Boolean) value);
-        } else if (value instanceof Date) {
-            cell.setCellValue((Date) value);
-        } else if (value instanceof Calendar) {
-            cell.setCellValue((Calendar) value);
-        } else if (value instanceof LocalDate) {
-            cell.setCellValue((LocalDate) value);
-        } else if (value instanceof LocalDateTime) {
-            cell.setCellValue((LocalDateTime) value);
-        } else if (value instanceof RichTextString) {
-            cell.setCellValue((RichTextString) value);
-        } else {
-            cell.setCellValue(value.toString());
-        }
+        this.value = value;
     }
 }
