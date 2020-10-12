@@ -6,8 +6,8 @@ import com.github.chimmhuang.school.GradesRanking;
 import com.github.chimmhuang.school.SchoolReportData;
 import com.github.chimmhuang.school.Score;
 import com.github.chimmhuang.tablemodel.ExcelWorkbook;
-import com.github.chimmhuang.tablemodel.InnerTable;
 import com.github.chimmhuang.tablemodel.Row;
+import com.github.chimmhuang.tablemodel.SheetTable;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class Demo {
         byte[] bytes = FileUtils.readFileToByteArray(file);
 
         ExcelWorkbook excelWorkbook = ExcelHelper.createWorkbook(bytes);
-        InnerTable table = excelWorkbook.getSheet(0);
+        SheetTable table = excelWorkbook.getSheet(0);
 
         // define table data
         SchoolReportData tableData = new SchoolReportData();
@@ -65,20 +65,18 @@ public class Demo {
 
         tableData.setPrincipalComment("允德允能");
 
-//        Row row13 = table.getRow(13);
-//        Row row14 = table.getRow(14);
-//
-//
-//        Row row15 = table.appendRow(row13);
-//        row15.getCell("C").setValue("你好");
-//
-//        Row row16 = table.appendRow(row13);
-//        row16.getCell("C").setValue("我不好");
-//        table.appendRow(row13);
-//        table.appendRow(row14);
-//
-//        table.removeRow(row13);
-//        table.removeRow(14);
+        Row row13 = table.getRow(13);
+        Row row14 = table.getRow(14);
+
+        table.removeRowGE(13);
+
+        Row row15 = table.appendRow(row13);
+        row15.getCell("C").setValue("你好");
+
+        Row row16 = table.appendRow(row13);
+        row16.getCell("C").setValue("我不好");
+
+        table.appendRow(row14);
 
         ExcelHelper.fillInData(table, tableData);
 
