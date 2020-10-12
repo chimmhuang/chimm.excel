@@ -46,7 +46,7 @@ public class Cell {
     }
 
     public void setCellFormula(String cellFormula) {
-        this.value = cellFormula;
+        this.value = cellFormula.replace("=", "");
         this.cellType = CellType.FORMULA;
     }
 
