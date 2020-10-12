@@ -1,6 +1,8 @@
 package com.github.chimmhuang.tablemodel;
 
 import com.github.chimmhuang.parser.ExcelHelper;
+import org.apache.commons.lang3.SerializationUtils;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -15,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Chimm Huang
  */
-public class InnerTable implements Iterable<Cell> {
+public class SheetTable implements Iterable<Cell> {
 
     /**
      * key - row-number. start from 1
@@ -29,11 +31,15 @@ public class InnerTable implements Iterable<Cell> {
      */
     private final Map<Integer, Integer> colWidthMap = new ConcurrentHashMap<>();
 
-
+    /**
+     * sheet name in excel
+     */
     private final String sheetName;
 
+    /**
+     * merged list of cells
+     */
     private final List<CellRangeAddress> mergedRegions;
-
 
     /**
      * the last row num in excel.
@@ -41,9 +47,8 @@ public class InnerTable implements Iterable<Cell> {
      */
     private int lastRowNum = 0;
 
-    public InnerTable(XSSFSheet xssfSheet) {
+    public SheetTable(XSSFSheet xssfSheet) {
         mergedRegions = xssfSheet.getMergedRegions();
-
         sheetName = xssfSheet.getSheetName();
         Iterator<org.apache.poi.ss.usermodel.Row> rowIterator = xssfSheet.rowIterator();
         rowIterator.forEachRemaining(row -> {
@@ -64,70 +69,22 @@ public class InnerTable implements Iterable<Cell> {
         return sheetName;
     }
 
-    /**
-     * get the specified row by row-number
-     */
-    public Row getRow(int rowNum) {
-        return rowMap.get(rowNum);
-    }
-
     public int getLastRowNum() {
         return lastRowNum;
     }
 
-    /**
-     * remove the row whose row number is greater than or equal to the specified rowNum
-     * @param rowNum row-num
-     */
-    public void removeRow(int rowNum) {
-        // remove row
-        Row row = rowMap.get(rowNum);
-        this.removeRow(row);
+    public Map<Integer, Integer> getColWidthMap() {
+        return colWidthMap;
     }
 
-    /**
-     * todo
-     * @param row
-     */
-    public void removeRow(Row row) {
-//        // remove row
-//        XSSFRow srcXssfRow = row.getXssfRow();
-//        this.xssfSheet.removeRow(srcXssfRow);
-//
-//        rowList.remove(row);
-//
-//        // recalculate the last row num
-//        lastRowNum--;
-//
-//        rowMap = IntStream.range(0, rowList.size()).boxed().collect(Collectors.toConcurrentMap(i -> i + 1, rowList::get));
+    public List<CellRangeAddress> getMergedRegions() {
+        return mergedRegions;
     }
 
-    /**
-     * todo: append a row at the end
-     *
-     * @param srcRow source row{@link Row}
-     * @return desc row
-     */
-    public Row appendRow(Row srcRow) {
-//        XSSFRow srcXssfRow = srcRow.getXssfRow();
-//
-//        XSSFRow newRow = this.xssfSheet.createRow(lastRowNum);
-//        newRow.copyRowFrom(srcXssfRow, new CellCopyPolicy());
-//
-//        Map<String, Cell> colCellMap = new ConcurrentHashMap<>();
-//        Iterator<org.apache.poi.ss.usermodel.Cell> cellIterator = newRow.cellIterator();
-//        cellIterator.forEachRemaining(cell -> colCellMap.put(getColName(cell.getColumnIndex()), new Cell((XSSFCell) cell)));
-//        Row descRow = new Row(colCellMap);
-//        rowMap.put(++lastRowNum, descRow);
-//        rowMap = IntStream.range(0, rowList.size()).boxed().collect(Collectors.toConcurrentMap(i -> i + 1, rowList::get));
-//        return descRow;
-        return null;
-    }
 
     public Iterator<Row> rowIterator() {
         return rowMap.values().iterator();
     }
-
 
     @Override
     public Iterator<Cell> iterator() {
@@ -137,7 +94,6 @@ public class InnerTable implements Iterable<Cell> {
     public class CellRowIterator implements Iterator<Cell> {
         private int currentRowNum = 1;
         private Iterator<Cell> currentCellIterator;
-
 
         /**
          * traverse every valid cell.
@@ -183,11 +139,47 @@ public class InnerTable implements Iterable<Cell> {
         }
     }
 
-    public Map<Integer, Integer> getColWidthMap() {
-        return colWidthMap;
+
+    /**
+     * get the specified row by row-number
+     */
+    public Row getRow(int rowNum) {
+        return rowMap.get(rowNum);
     }
 
-    public List<CellRangeAddress> getMergedRegions() {
-        return mergedRegions;
+    /**
+     * remove rows which row-num greater than or equals the specified row-num
+     * @param rowNum specified row-num
+     */
+    public void removeRowGE(int rowNum) {
+        rowMap.keySet().stream()
+                .filter(key -> key >= rowNum)
+                .forEach(rowMap::remove);
+        lastRowNum = rowNum - 1;
+    }
+
+    /**
+     * append a row at the end
+     *
+     * @param srcRow source row{@link Row}
+     * @return desc row
+     */
+    public Row appendRow(Row srcRow) {
+
+        lastRowNum++;
+        Row descRow = SerializationUtils.clone(srcRow);
+
+        // update row num
+        descRow.setRowNum(lastRowNum);
+        descRow.iterator().forEachRemaining(cell -> {
+            cell.setRow(lastRowNum);
+
+            if (cell.getCellType().equals(CellType.FORMULA)) {
+                // todo: update formula
+            }
+        });
+
+        rowMap.put(lastRowNum, descRow);
+        return descRow;
     }
 }

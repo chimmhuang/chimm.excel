@@ -11,7 +11,7 @@ import com.github.chimmhuang.tablemodel.Cell;
 import com.github.chimmhuang.tablemodel.CellStyle;
 import com.github.chimmhuang.tablemodel.ExcelWorkbook;
 import com.github.chimmhuang.tablemodel.Font;
-import com.github.chimmhuang.tablemodel.InnerTable;
+import com.github.chimmhuang.tablemodel.SheetTable;
 import com.github.chimmhuang.tablemodel.Row;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -92,10 +92,10 @@ public class ExcelHelper {
      * @param bytes      excel binary file
      * @param sheetIndex sheet index
      */
-    public static InnerTable getSheetInnerTable(byte[] bytes, int sheetIndex) throws IOException {
+    public static SheetTable getSheetInnerTable(byte[] bytes, int sheetIndex) throws IOException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook(byteArrayInputStream);
-        return new InnerTable(xssfWorkbook.getSheetAt(sheetIndex));
+        return new SheetTable(xssfWorkbook.getSheetAt(sheetIndex));
     }
 
     /**
@@ -104,10 +104,10 @@ public class ExcelHelper {
      * @param bytes     excel binary file
      * @param sheetName sheet name
      */
-    public static InnerTable getSheetInnerTable(byte[] bytes, String sheetName) throws IOException {
+    public static SheetTable getSheetInnerTable(byte[] bytes, String sheetName) throws IOException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook(byteArrayInputStream);
-        return new InnerTable(xssfWorkbook.getSheet(sheetName));
+        return new SheetTable(xssfWorkbook.getSheet(sheetName));
     }
 
     /**
@@ -116,7 +116,7 @@ public class ExcelHelper {
      * @param table excel sheet table
      * @param data  table data
      */
-    public static void fillInData(InnerTable table, Object data) {
+    public static void fillInData(SheetTable table, Object data) {
         for (Cell cell : table) {
             Object value = cell.getValue();
 
@@ -134,10 +134,10 @@ public class ExcelHelper {
     }
 
     /**
-     * convert excel table{@link InnerTable} to byte
+     * convert excel table{@link SheetTable} to byte
      * @param table inner table
      */
-    public static byte[] convert2Byte(InnerTable table) {
+    public static byte[] convert2Byte(SheetTable table) {
 
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
         XSSFSheet xssfSheet = xssfWorkbook.createSheet(table.getSheetName());

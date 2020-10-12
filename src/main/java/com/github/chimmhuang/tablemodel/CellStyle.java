@@ -5,10 +5,14 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 
+import java.io.Serializable;
+
 /**
  * @author Chimm Huang
  */
-public class CellStyle {
+public class CellStyle implements Serializable {
+
+    private static final long serialVersionUID = 6572274827392389515L;
 
     private BorderStyle borderTopEnum;
     private BorderStyle borderBottomEnum;

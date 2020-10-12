@@ -4,13 +4,17 @@ import com.github.chimmhuang.parser.ExcelHelper;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
+import java.io.Serializable;
+
 
 /**
  * This class corresponds to each [cell] of excel.
  *
  * @author Chimm Huang
  */
-public class Cell {
+public class Cell implements Serializable {
+
+    private static final long serialVersionUID = -2425553436158748501L;
 
     private int row;
     private String col;
@@ -88,5 +92,23 @@ public class Cell {
 
     public void setValue(Object value) {
         this.value = value;
+        switch (value.getClass().getName()) {
+            case "java.lang.Double":
+            case "java.math.BigDecimal":
+            case "java.util.Date":
+            case "java.util.Calendar":
+            case "java.time.LocalDate":
+            case "java.time.LocalDateTime":
+                cellType = CellType.NUMERIC;
+                break;
+            case "java.lang.String":
+            case "org.apache.poi.ss.usermodel.RichTextString":
+                cellType = CellType.STRING;
+                break;
+            case "java.lang.Boolean":
+                cellType = CellType.BOOLEAN;
+                break;
+            default:break;
+        }
     }
 }

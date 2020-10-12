@@ -20,18 +20,18 @@ public class ExcelWorkbook {
      * get the specified sheet by index
      * @param index sheet index in excel. start from 0
      */
-    public InnerTable getSheet(int index) {
+    public SheetTable getSheet(int index) {
         XSSFSheet sheetAt = xssfWorkbook.getSheetAt(index);
-        return new InnerTable(sheetAt);
+        return new SheetTable(sheetAt);
     }
 
     /**
      * get the specified sheet by sheet name
      * @param sheetName sheet name
      */
-    public InnerTable getSheet(String sheetName) {
+    public SheetTable getSheet(String sheetName) {
         XSSFSheet sheet = xssfWorkbook.getSheet(sheetName);
-        return new InnerTable(sheet);
+        return new SheetTable(sheet);
     }
 
     /**

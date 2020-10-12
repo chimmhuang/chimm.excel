@@ -1,7 +1,9 @@
 package com.github.chimmhuang.tablemodel;
 
 import com.github.chimmhuang.parser.ExcelHelper;
+import org.apache.commons.lang3.SerializationUtils;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -10,7 +12,9 @@ import java.util.Map;
  *
  * @author Chimm Huang
  */
-public class Row implements Iterable<Cell> {
+public class Row implements Iterable<Cell>, Serializable {
+
+    private static final long serialVersionUID = 5924803090073879378L;
 
     /**
      * row-num. start from 1
@@ -50,6 +54,15 @@ public class Row implements Iterable<Cell> {
         return colCellMap.get(cellName);
     }
 
+
+    /**
+     * deep clone
+     * @return new Row
+     */
+    public Row copy() {
+        return SerializationUtils.clone(this);
+    }
+
     /**
      * traverse all cells in the row
      */
@@ -72,5 +85,9 @@ public class Row implements Iterable<Cell> {
 
     public int getRowNum() {
         return rowNum;
+    }
+
+    public void setRowNum(int rowNum) {
+        this.rowNum = rowNum;
     }
 }

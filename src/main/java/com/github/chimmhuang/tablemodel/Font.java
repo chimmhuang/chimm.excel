@@ -3,10 +3,14 @@ package com.github.chimmhuang.tablemodel;
 import org.apache.poi.ss.usermodel.FontScheme;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 
+import java.io.Serializable;
+
 /**
  * @author Chimm Huang
  */
-public class Font {
+public class Font implements Serializable {
+
+    private static final long serialVersionUID = 6517940000596931192L;
 
     private boolean bold;
     private int charSet;
