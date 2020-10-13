@@ -226,7 +226,7 @@ public class ExcelHelper {
                 // set merged region
                 MergedRegion mergedRegion = cell.getMergedRegion();
                 if (mergedRegion != null) {
-                    CellRangeAddress cellRangeAddress = new CellRangeAddress(mergedRegion.getFirstRowRum() - 1, mergedRegion.getLastRowRum() - 1, getColIndex(mergedRegion.getFirstColName()), getColIndex(mergedRegion.getLastColName()));
+                    CellRangeAddress cellRangeAddress = new CellRangeAddress(mergedRegion.getFirstRowNum() - 1, mergedRegion.getLastRowNum() - 1, getColIndex(mergedRegion.getFirstColName()), getColIndex(mergedRegion.getLastColName()));
                     xssfSheet.addMergedRegion(cellRangeAddress);
                 }
 

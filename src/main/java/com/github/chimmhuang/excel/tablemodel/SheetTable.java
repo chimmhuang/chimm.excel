@@ -218,8 +218,8 @@ public class SheetTable implements Iterable<Cell> {
             MergedRegion mergedRegion = cell.getMergedRegion();
             if (mergedRegion != null) {
                 // update row num
-                mergedRegion.setFirstRowRum(descRowNum);
-                mergedRegion.setLastRowRum(mergedRegion.getLastRowRum() + subtractRowNum);
+                mergedRegion.setFirstRowNum(descRowNum);
+                mergedRegion.setLastRowNum(mergedRegion.getLastRowNum() + subtractRowNum);
                 cell.setMergedRegion(mergedRegion);
             }
 
@@ -287,5 +287,19 @@ public class SheetTable implements Iterable<Cell> {
 
         rowMap.put(lastRowNum, descRow);
         return descRow;
+    }
+
+    /**
+     * 合并单元格
+     * merge cells
+     *
+     * row num start from 1.
+     * col name start from "A"
+     */
+    public void mergeCell(int firstRowNum, int lastRowNum, String firstColName, String lastColName) {
+        Row row = rowMap.get(firstRowNum);
+        Cell cell = row.getCell(firstColName);
+        MergedRegion mergedRegion = new MergedRegion(firstRowNum, lastRowNum, firstColName, lastColName);
+        cell.setMergedRegion(mergedRegion);
     }
 }

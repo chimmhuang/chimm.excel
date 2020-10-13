@@ -12,8 +12,8 @@ public class MergedRegion implements Serializable {
     /**
      * start from 1.
      */
-    private int firstRowRum;
-    private int lastRowRum;
+    private int firstRowNum;
+    private int lastRowNum;
 
     /**
      * start from "A"
@@ -24,27 +24,27 @@ public class MergedRegion implements Serializable {
     public MergedRegion() {
     }
 
-    public MergedRegion(int firstRowRum, int lastRowRum, String firstColName, String lastColName) {
-        this.firstRowRum = firstRowRum;
-        this.lastRowRum = lastRowRum;
+    public MergedRegion(int firstRowNum, int lastRowNum, String firstColName, String lastColName) {
+        this.firstRowNum = firstRowNum;
+        this.lastRowNum = lastRowNum;
         this.firstColName = firstColName;
         this.lastColName = lastColName;
     }
 
-    public int getFirstRowRum() {
-        return firstRowRum;
+    public int getFirstRowNum() {
+        return firstRowNum;
     }
 
-    public void setFirstRowRum(int firstRowRum) {
-        this.firstRowRum = firstRowRum;
+    public void setFirstRowNum(int firstRowNum) {
+        this.firstRowNum = firstRowNum;
     }
 
-    public int getLastRowRum() {
-        return lastRowRum;
+    public int getLastRowNum() {
+        return lastRowNum;
     }
 
-    public void setLastRowRum(int lastRowRum) {
-        this.lastRowRum = lastRowRum;
+    public void setLastRowNum(int lastRowNum) {
+        this.lastRowNum = lastRowNum;
     }
 
     public String getFirstColName() {
