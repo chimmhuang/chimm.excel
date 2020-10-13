@@ -1,13 +1,13 @@
-package com.github.chimmhuang.demo;
+package com.github.chimmhuang.excel.demo;
 
-import com.github.chimmhuang.parser.ExcelHelper;
-import com.github.chimmhuang.school.ClassScore;
-import com.github.chimmhuang.school.GradesRanking;
-import com.github.chimmhuang.school.SchoolReportData;
-import com.github.chimmhuang.school.Score;
-import com.github.chimmhuang.tablemodel.ExcelWorkbook;
-import com.github.chimmhuang.tablemodel.Row;
-import com.github.chimmhuang.tablemodel.SheetTable;
+import com.github.chimmhuang.excel.ExcelHelper;
+import com.github.chimmhuang.excel.school.Score;
+import com.github.chimmhuang.excel.tablemodel.ExcelWorkbook;
+import com.github.chimmhuang.excel.tablemodel.Row;
+import com.github.chimmhuang.excel.tablemodel.SheetTable;
+import com.github.chimmhuang.excel.school.ClassScore;
+import com.github.chimmhuang.excel.school.GradesRanking;
+import com.github.chimmhuang.excel.school.SchoolReportData;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 

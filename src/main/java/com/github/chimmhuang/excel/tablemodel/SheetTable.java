@@ -1,6 +1,11 @@
-package com.github.chimmhuang.tablemodel;
+package com.github.chimmhuang.excel.tablemodel;
 
-import com.github.chimmhuang.parser.ExcelHelper;
+import com.github.chimmhuang.excel.parser.VariableParserLexer;
+import com.github.chimmhuang.excel.parser.VariableParserParser;
+import com.github.chimmhuang.excel.parser.VariableParserParser.VariableContext;
+import com.github.chimmhuang.excel.ExcelHelper;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -186,7 +191,19 @@ public class SheetTable implements Iterable<Cell> {
             }
 
             if (cell.getCellType().equals(CellType.FORMULA)) {
-                // todo: update formula
+
+                String formula = (String) cell.getValue();
+
+                // lexical analysis
+                VariableParserLexer lexer = new VariableParserLexer(CharStreams.fromString(formula));
+                CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+                // syntax analysis
+                VariableParserParser parser = new VariableParserParser(tokens);
+
+                for (VariableContext variableContext : parser.variableExpr().variable()) {
+
+                }
             }
         });
 

@@ -1,4 +1,4 @@
-package com.github.chimmhuang.exception;
+package com.github.chimmhuang.excel.exception;
 
 /**
  * @author Chimm Huang

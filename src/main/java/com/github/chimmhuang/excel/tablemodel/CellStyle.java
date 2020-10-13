@@ -1,4 +1,4 @@
-package com.github.chimmhuang.tablemodel;
+package com.github.chimmhuang.excel.tablemodel;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;

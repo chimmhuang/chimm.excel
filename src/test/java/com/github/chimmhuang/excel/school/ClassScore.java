@@ -1,4 +1,4 @@
-package com.github.chimmhuang.school;
+package com.github.chimmhuang.excel.school;
 
 import java.math.BigDecimal;
 

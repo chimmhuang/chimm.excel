@@ -1,6 +1,6 @@
-package com.github.chimmhuang.tablemodel;
+package com.github.chimmhuang.excel.tablemodel;
 
-import com.github.chimmhuang.parser.ExcelHelper;
+import com.github.chimmhuang.excel.ExcelHelper;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
