@@ -77,9 +77,11 @@ public class ExcelHelper {
     }
 
     /**
+     * 创建 excel 工作簿
      * create excel workbook
      *
-     * @param bytes excel binary file
+     * @param bytes excel 的二进制文件
+     *              excel binary file
      */
     public static ExcelWorkbook createWorkbook(byte[] bytes) throws IOException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
@@ -88,10 +90,11 @@ public class ExcelHelper {
     }
 
     /**
-     * get inner table
+     * 获取 sheet 页的表格信息
+     * get sheet table
      *
      * @param bytes      excel binary file
-     * @param sheetIndex sheet index
+     * @param sheetIndex sheet index, start from 0
      */
     public static SheetTable getSheetInnerTable(byte[] bytes, int sheetIndex) throws IOException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
@@ -100,7 +103,8 @@ public class ExcelHelper {
     }
 
     /**
-     * get inner table
+     * 获取 sheet 页的表格信息
+     * get sheet table
      *
      * @param bytes     excel binary file
      * @param sheetName sheet name
@@ -112,6 +116,7 @@ public class ExcelHelper {
     }
 
     /**
+     * 将变量填充入表格
      * fill variables into excel table
      *
      * @param table excel sheet table
@@ -129,14 +134,17 @@ public class ExcelHelper {
 
             // insert formula
             if (value instanceof String && ((String) value).startsWith("=")) {
-                cell.setCellFormula((String) value);
+                cell.setFormula((String) value);
             }
         }
     }
 
     /**
+     * 将 sheet 对象转换为 excel 二进制文件
      * convert excel table{@link SheetTable} to byte
-     * @param table inner table
+     *
+     * @param table sheet table
+     * @return excel binary file
      */
     public static byte[] convert2Byte(SheetTable table) {
 
@@ -204,7 +212,8 @@ public class ExcelHelper {
                                 case "org.apache.poi.ss.usermodel.RichTextString":
                                     xssfCell.setCellValue((RichTextString) value);
                                     break;
-                                default:break;
+                                default:
+                                    break;
                             }
                         }
                         break;
@@ -235,6 +244,7 @@ public class ExcelHelper {
     }
 
     /**
+     * 转换 cellStyle 对象为 Apache poi 的对象
      * convert {@link CellStyle} to {@link org.apache.poi.ss.usermodel.CellStyle}
      */
     private static org.apache.poi.ss.usermodel.CellStyle toExcelCellStyle(XSSFWorkbook xssfWorkbook, CellStyle cellStyle) {
@@ -285,8 +295,10 @@ public class ExcelHelper {
     }
 
     /**
+     * 获取 XSSFRow 对象，若不存在，则创建一个
      * get XSSFRow {@link XSSFRow}. if it's not exist, then create
-     * @param rowNum row-num, start from 1
+     *
+     * @param rowNum    row-num, start from 1
      * @param xssfSheet {@link XSSFSheet}
      * @return {@link XSSFRow}
      */
@@ -300,6 +312,7 @@ public class ExcelHelper {
     }
 
     /**
+     * 将 excel 里的变量转换为对应的值
      * parse the variable name filled in the cell
      *
      * @param data             table data
@@ -339,13 +352,17 @@ public class ExcelHelper {
     }
 
     /**
+     * 获取表格数据对应变量的值
      * get the value of the specified attribute of the incoming data
      *
-     * @param obj      object
-     * @param propName object attribute name
-     * @return the value of the specified attribute of the incoming data
+     * @param obj      表格数据对象
+     *                 object
+     * @param propName 表格数据对象的属性名称
+     *                 object attribute name
+     * @return 对应属性的值。the value of the specified attribute of the incoming data
      */
     private static Object getPropValue(Object obj, String propName) {
+
         if (obj == null || propName == null) {
             return null;
         }

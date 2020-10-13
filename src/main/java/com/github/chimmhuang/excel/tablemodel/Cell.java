@@ -64,11 +64,6 @@ public class Cell implements Serializable {
         }
     }
 
-    public void setCellFormula(String cellFormula) {
-        this.value = cellFormula.replace("=", "");
-        this.cellType = CellType.FORMULA;
-    }
-
     public int getRow() {
         return row;
     }
@@ -133,5 +128,13 @@ public class Cell implements Serializable {
                 break;
             default:break;
         }
+    }
+
+    public void setFormula(String formula) {
+        if (formula.startsWith("=")) {
+            formula = formula.replaceFirst("=", "");
+        }
+        value = formula;
+        cellType = CellType.FORMULA;
     }
 }
