@@ -92,7 +92,6 @@ public class Demo {
         int classScoreIndex = 0;
         Map<Integer, List<ClassScore>> classScoreMap = tableData.getClassScoreList().stream()
                 .collect(Collectors.groupingBy(ClassScore::getClassId));
-
         for (Entry<Integer, List<ClassScore>> entry : classScoreMap.entrySet()) {
             Integer classId = entry.getKey();
             for (ClassScore classScore : entry.getValue()) {
@@ -111,6 +110,10 @@ public class Demo {
                 table.appendRow(copy);
             }
         }
+
+        // 合并单元格，【此处仅展示功能，需要合并的 rowNum 建议动态计算】
+        table.mergeCell(13, 15, "A", "A");
+        table.mergeCell(16, 19, "A", "A");
 
         // 班级成绩设置好之后，将最后的校长评语添加进表格
         table.appendRow(row14);
