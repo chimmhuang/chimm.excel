@@ -6,8 +6,18 @@ expr
     | expr op=(ADD|MINUS) expr                 # AddSub
     | LPAR expr RPAR                           # Parens
     | literal                                  # Liter
+    | array                                    # ExcelArray
+    | formula                                  # FormulaCall
+    | qualifiedName                            # Name
     ;
 
+exprList
+    : expr (',' expr)*
+    ;
+
+qualifiedName
+    :   (ABS)? IDENTIFIER ( DOT IDENTIFIER )*
+    ;
 
 variableExpr
     :  ABS LBRA variable  (DOT variable)* RBRA
@@ -17,12 +27,16 @@ variable
     :  IDENTIFIER (arrayIdx)*
     ;
 
+formula
+    : IDENTIFIER LPAR  exprList?  RPAR
+    ;
+
 arrayIdx
     :  LSQU (NUMBER|qualifiedName) RSQU
     ;
 
-qualifiedName
-    :   (ABS)? IDENTIFIER ( DOT IDENTIFIER )*
+array
+    :  IDENTIFIER COLON IDENTIFIER
     ;
 
 literal

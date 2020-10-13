@@ -1,5 +1,5 @@
-// Generated from /Users/huangshuai/IdeaProjects/chimm_excel/src/main/java/com/github/chimmhuang/parser/VariableParser.g4 by ANTLR 4.8
-package com.github.chimmhuang.antlr;
+// Generated from /Users/huangshuai/IdeaProjects/chimm_excel/src/main/java/com/github/chimmhuang/antlr/VariableParser.g4 by ANTLR 4.8
+package com.github.chimmhuang.excel.parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -7,6 +7,18 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  * {@link VariableParserParser}.
  */
 public interface VariableParserListener extends ParseTreeListener {
+	/**
+	 * Enter a parse tree produced by the {@code FormulaCall}
+	 * labeled alternative in {@link VariableParserParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormulaCall(VariableParserParser.FormulaCallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FormulaCall}
+	 * labeled alternative in {@link VariableParserParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormulaCall(VariableParserParser.FormulaCallContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Liter}
 	 * labeled alternative in {@link VariableParserParser#expr}.
@@ -68,6 +80,50 @@ public interface VariableParserListener extends ParseTreeListener {
 	 */
 	void exitParens(VariableParserParser.ParensContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code ExcelArray}
+	 * labeled alternative in {@link VariableParserParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterExcelArray(VariableParserParser.ExcelArrayContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ExcelArray}
+	 * labeled alternative in {@link VariableParserParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitExcelArray(VariableParserParser.ExcelArrayContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Name}
+	 * labeled alternative in {@link VariableParserParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterName(VariableParserParser.NameContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Name}
+	 * labeled alternative in {@link VariableParserParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitName(VariableParserParser.NameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link VariableParserParser#exprList}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprList(VariableParserParser.ExprListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link VariableParserParser#exprList}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprList(VariableParserParser.ExprListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link VariableParserParser#qualifiedName}.
+	 * @param ctx the parse tree
+	 */
+	void enterQualifiedName(VariableParserParser.QualifiedNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link VariableParserParser#qualifiedName}.
+	 * @param ctx the parse tree
+	 */
+	void exitQualifiedName(VariableParserParser.QualifiedNameContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link VariableParserParser#variableExpr}.
 	 * @param ctx the parse tree
 	 */
@@ -88,6 +144,16 @@ public interface VariableParserListener extends ParseTreeListener {
 	 */
 	void exitVariable(VariableParserParser.VariableContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link VariableParserParser#formula}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormula(VariableParserParser.FormulaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link VariableParserParser#formula}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormula(VariableParserParser.FormulaContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link VariableParserParser#arrayIdx}.
 	 * @param ctx the parse tree
 	 */
@@ -98,15 +164,15 @@ public interface VariableParserListener extends ParseTreeListener {
 	 */
 	void exitArrayIdx(VariableParserParser.ArrayIdxContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link VariableParserParser#qualifiedName}.
+	 * Enter a parse tree produced by {@link VariableParserParser#array}.
 	 * @param ctx the parse tree
 	 */
-	void enterQualifiedName(VariableParserParser.QualifiedNameContext ctx);
+	void enterArray(VariableParserParser.ArrayContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link VariableParserParser#qualifiedName}.
+	 * Exit a parse tree produced by {@link VariableParserParser#array}.
 	 * @param ctx the parse tree
 	 */
-	void exitQualifiedName(VariableParserParser.QualifiedNameContext ctx);
+	void exitArray(VariableParserParser.ArrayContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link VariableParserParser#literal}.
 	 * @param ctx the parse tree

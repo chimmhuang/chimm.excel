@@ -1,5 +1,5 @@
-// Generated from /Users/huangshuai/IdeaProjects/chimm_excel/src/main/java/com/github/chimmhuang/parser/VariableParser.g4 by ANTLR 4.8
-package com.github.chimmhuang.antlr;
+// Generated from /Users/huangshuai/IdeaProjects/chimm_excel/src/main/java/com/github/chimmhuang/antlr/VariableParser.g4 by ANTLR 4.8
+package com.github.chimmhuang.excel.parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -10,6 +10,13 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  * operations with no return type.
  */
 public interface VariableParserVisitor<T> extends ParseTreeVisitor<T> {
+	/**
+	 * Visit a parse tree produced by the {@code FormulaCall}
+	 * labeled alternative in {@link VariableParserParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFormulaCall(VariableParserParser.FormulaCallContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Liter}
 	 * labeled alternative in {@link VariableParserParser#expr}.
@@ -46,6 +53,32 @@ public interface VariableParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParens(VariableParserParser.ParensContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ExcelArray}
+	 * labeled alternative in {@link VariableParserParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExcelArray(VariableParserParser.ExcelArrayContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Name}
+	 * labeled alternative in {@link VariableParserParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitName(VariableParserParser.NameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link VariableParserParser#exprList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprList(VariableParserParser.ExprListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link VariableParserParser#qualifiedName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQualifiedName(VariableParserParser.QualifiedNameContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link VariableParserParser#variableExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -58,17 +91,23 @@ public interface VariableParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariable(VariableParserParser.VariableContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link VariableParserParser#formula}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFormula(VariableParserParser.FormulaContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link VariableParserParser#arrayIdx}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArrayIdx(VariableParserParser.ArrayIdxContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link VariableParserParser#qualifiedName}.
+	 * Visit a parse tree produced by {@link VariableParserParser#array}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQualifiedName(VariableParserParser.QualifiedNameContext ctx);
+	T visitArray(VariableParserParser.ArrayContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link VariableParserParser#literal}.
 	 * @param ctx the parse tree
