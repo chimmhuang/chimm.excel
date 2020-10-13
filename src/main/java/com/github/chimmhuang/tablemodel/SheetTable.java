@@ -1,7 +1,6 @@
 package com.github.chimmhuang.tablemodel;
 
 import com.github.chimmhuang.parser.ExcelHelper;
-import org.apache.commons.lang3.SerializationUtils;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -37,27 +36,33 @@ public class SheetTable implements Iterable<Cell> {
     private final String sheetName;
 
     /**
-     * merged list of cells
-     */
-    private final List<CellRangeAddress> mergedRegions;
-
-    /**
      * the last row num in excel.
      * when the object is instantiated, the value of the variable will be updated.
      */
     private int lastRowNum = 0;
 
     public SheetTable(XSSFSheet xssfSheet) {
-        mergedRegions = xssfSheet.getMergedRegions();
+
+        List<CellRangeAddress> mergedRegions = xssfSheet.getMergedRegions();
+
         sheetName = xssfSheet.getSheetName();
         Iterator<org.apache.poi.ss.usermodel.Row> rowIterator = xssfSheet.rowIterator();
         rowIterator.forEachRemaining(row -> {
-            lastRowNum = Math.max(lastRowNum, row.getRowNum() + 1);
+            int rowIndex = row.getRowNum();
+            lastRowNum = Math.max(lastRowNum, rowIndex + 1);
             Map<String, Cell> colCellMap = new ConcurrentHashMap<>();
             Iterator<org.apache.poi.ss.usermodel.Cell> cellIterator = row.cellIterator();
             cellIterator.forEachRemaining(cell -> {
+
                 int columnIndex = cell.getColumnIndex();
-                colCellMap.put(ExcelHelper.getColName(columnIndex), new Cell((XSSFCell) cell));
+
+                // get the merged region
+                CellRangeAddress cellRangeAddress = mergedRegions.stream()
+                        .filter(cellAddresses -> cellAddresses.getFirstRow() == rowIndex && cellAddresses.getFirstColumn() == columnIndex)
+                        .findFirst()
+                        .orElse(null);
+
+                colCellMap.put(ExcelHelper.getColName(columnIndex), new Cell((XSSFCell) cell, cellRangeAddress));
                 colWidthMap.put(columnIndex, xssfSheet.getColumnWidth(columnIndex));
             });
             Row descRow = new Row(row, colCellMap);
@@ -76,11 +81,6 @@ public class SheetTable implements Iterable<Cell> {
     public Map<Integer, Integer> getColWidthMap() {
         return colWidthMap;
     }
-
-    public List<CellRangeAddress> getMergedRegions() {
-        return mergedRegions;
-    }
-
 
     public Iterator<Row> rowIterator() {
         return rowMap.values().iterator();
@@ -167,12 +167,23 @@ public class SheetTable implements Iterable<Cell> {
     public Row appendRow(Row srcRow) {
 
         lastRowNum++;
-        Row descRow = SerializationUtils.clone(srcRow);
+        Row descRow = srcRow.copy();
 
         // update row num
         descRow.setRowNum(lastRowNum);
         descRow.iterator().forEachRemaining(cell -> {
             cell.setRow(lastRowNum);
+
+            MergedRegion mergedRegion = cell.getMergedRegion();
+            if (mergedRegion != null) {
+                // update row num
+                int firstRowRum = mergedRegion.getFirstRowRum();
+                int rowNum = descRow.getRowNum();
+
+                mergedRegion.setFirstRowRum(rowNum);
+                mergedRegion.setLastRowRum(mergedRegion.getLastRowRum() + (rowNum - firstRowRum));
+                cell.setMergedRegion(mergedRegion);
+            }
 
             if (cell.getCellType().equals(CellType.FORMULA)) {
                 // todo: update formula

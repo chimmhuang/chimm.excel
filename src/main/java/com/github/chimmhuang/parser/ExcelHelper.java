@@ -11,6 +11,7 @@ import com.github.chimmhuang.tablemodel.Cell;
 import com.github.chimmhuang.tablemodel.CellStyle;
 import com.github.chimmhuang.tablemodel.ExcelWorkbook;
 import com.github.chimmhuang.tablemodel.Font;
+import com.github.chimmhuang.tablemodel.MergedRegion;
 import com.github.chimmhuang.tablemodel.SheetTable;
 import com.github.chimmhuang.tablemodel.Row;
 import org.antlr.v4.runtime.CharStreams;
@@ -144,9 +145,7 @@ public class ExcelHelper {
 
         // set sheet style
         Map<Integer, Integer> colWidthMap = table.getColWidthMap();
-        List<CellRangeAddress> mergedRegions = table.getMergedRegions();
         colWidthMap.forEach(xssfSheet::setColumnWidth);
-        mergedRegions.forEach(xssfSheet::addMergedRegion);
 
         Iterator<Row> rowIterator = table.rowIterator();
         while (rowIterator.hasNext()) {
@@ -214,6 +213,14 @@ public class ExcelHelper {
                 // set cell style
                 org.apache.poi.ss.usermodel.CellStyle xssfCellStyle = toExcelCellStyle(xssfWorkbook, cell.getCellStyle());
                 xssfCell.setCellStyle(xssfCellStyle);
+
+                // set merged region
+                MergedRegion mergedRegion = cell.getMergedRegion();
+                if (mergedRegion != null) {
+                    CellRangeAddress cellRangeAddress = new CellRangeAddress(mergedRegion.getFirstRowRum() - 1, mergedRegion.getLastRowRum() - 1, getColIndex(mergedRegion.getFirstColName()), getColIndex(mergedRegion.getLastColName()));
+                    xssfSheet.addMergedRegion(cellRangeAddress);
+                }
+
             }
         }
 

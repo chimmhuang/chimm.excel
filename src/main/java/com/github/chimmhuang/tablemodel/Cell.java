@@ -2,6 +2,7 @@ package com.github.chimmhuang.tablemodel;
 
 import com.github.chimmhuang.parser.ExcelHelper;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
 import java.io.Serializable;
@@ -20,9 +21,14 @@ public class Cell implements Serializable {
     private String col;
     private CellStyle cellStyle;
     private CellType cellType;
+    private MergedRegion mergedRegion;
     private Object value;
 
     public Cell(XSSFCell xssfCell) {
+        this(xssfCell,null);
+    }
+
+    public Cell(XSSFCell xssfCell, CellRangeAddress cellAddresses) {
         this.row = xssfCell.getRowIndex() + 1;
         this.col = ExcelHelper.getColName(xssfCell.getColumnIndex());
         this.cellStyle = new CellStyle(xssfCell.getCellStyle());
@@ -46,6 +52,15 @@ public class Cell implements Serializable {
             case ERROR:
                 this.value = xssfCell.getErrorCellValue();
                 break;
+        }
+
+        if (cellAddresses != null) {
+            int firstRow = cellAddresses.getFirstRow();
+            int lastRow = cellAddresses.getLastRow();
+            int firstColumn = cellAddresses.getFirstColumn();
+            int lastColumn = cellAddresses.getLastColumn();
+
+            this.mergedRegion = new MergedRegion(firstRow + 1, lastRow + 1, ExcelHelper.getColName(firstColumn), ExcelHelper.getColName(lastColumn));
         }
     }
 
@@ -84,6 +99,14 @@ public class Cell implements Serializable {
 
     public void setCellType(CellType cellType) {
         this.cellType = cellType;
+    }
+
+    public MergedRegion getMergedRegion() {
+        return mergedRegion;
+    }
+
+    public void setMergedRegion(MergedRegion mergedRegion) {
+        this.mergedRegion = mergedRegion;
     }
 
     public Object getValue() {

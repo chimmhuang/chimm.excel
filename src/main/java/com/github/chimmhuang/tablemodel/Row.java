@@ -1,6 +1,5 @@
 package com.github.chimmhuang.tablemodel;
 
-import com.github.chimmhuang.parser.ExcelHelper;
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.Serializable;
@@ -36,15 +35,6 @@ public class Row implements Iterable<Cell>, Serializable {
         heightInPoints = row.getHeightInPoints();
         height = row.getHeight();
         this.colCellMap = colCellMap;
-    }
-
-    /**
-     * get the cell of the row by cell index. cell index start from 0
-     *
-     * @param cellIndex cell index. start from 0
-     */
-    public Cell getCell(int cellIndex) {
-        return colCellMap.get(ExcelHelper.getColName(cellIndex));
     }
 
     /**
