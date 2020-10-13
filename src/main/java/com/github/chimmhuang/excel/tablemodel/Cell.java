@@ -1,6 +1,7 @@
 package com.github.chimmhuang.excel.tablemodel;
 
 import com.github.chimmhuang.excel.ExcelHelper;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 
 
 /**
+ * 该类对应于 Excel 的 [单元格]
  * This class corresponds to each [cell] of excel.
  *
  * @author Chimm Huang
@@ -108,6 +110,10 @@ public class Cell implements Serializable {
         return value;
     }
 
+    /**
+     * 设置值
+     * set value
+     */
     public void setValue(Object value) {
         this.value = value;
         switch (value.getClass().getName()) {
@@ -130,11 +136,48 @@ public class Cell implements Serializable {
         }
     }
 
+    /**
+     * 设置公式
+     * set formula
+     *
+     * @param formula 公式
+     */
     public void setFormula(String formula) {
         if (formula.startsWith("=")) {
             formula = formula.replaceFirst("=", "");
         }
         value = formula;
         cellType = CellType.FORMULA;
+    }
+
+    /**
+     * 设置该单元格的边框的样式，你可以更改边框的样式，如粗线、虚线等
+     * set border style of this cell, you can change the style of the border, such as thick line, dotted line, etc.
+     *
+     * @param positionEnum position enum
+     * @param borderStyle style enum
+     */
+    public void setBorderStyle(BorderPositionEnum positionEnum, BorderStyle borderStyle) {
+        switch (positionEnum) {
+            default:
+            case AROUND:
+                cellStyle.setBorderTopEnum(borderStyle);
+                cellStyle.setBorderBottomEnum(borderStyle);
+                cellStyle.setBorderLeftEnum(borderStyle);
+                cellStyle.setBorderRightEnum(borderStyle);
+                break;
+            case TOP:
+                cellStyle.setBorderTopEnum(borderStyle);
+                break;
+            case BOTTOM:
+                cellStyle.setBorderBottomEnum(borderStyle);
+                break;
+            case LEFT:
+                cellStyle.setBorderLeftEnum(borderStyle);
+                break;
+            case RIGHT:
+                cellStyle.setBorderRightEnum(borderStyle);
+                break;
+        }
     }
 }

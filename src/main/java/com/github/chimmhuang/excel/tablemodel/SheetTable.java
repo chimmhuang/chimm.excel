@@ -10,6 +10,7 @@ import com.github.chimmhuang.excel.parser.VariableParserParser.NameContext;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -301,5 +302,41 @@ public class SheetTable implements Iterable<Cell> {
         Cell cell = row.getCell(firstColName);
         MergedRegion mergedRegion = new MergedRegion(firstRowNum, lastRowNum, firstColName, lastColName);
         cell.setMergedRegion(mergedRegion);
+    }
+
+    /**
+     * 设置指定范围的边框的样式，你可以更改边框的样式，如粗线、虚线等
+     * set border style of the specified range, you can change the style of the border, such as thick line, dotted line, etc.
+     *
+     * row-num start from 1.
+     * col-name start from "A"
+     *
+     * @param borderStyle style enum
+     */
+    public void setBorderStyle(int firstRowNum, int lastRowNum, String firstColName, String lastColName, BorderStyle borderStyle) {
+
+        Integer firstColIndex = ExcelHelper.getColIndex(firstColName);
+        Integer lastColIndex = ExcelHelper.getColIndex(lastColName);
+
+        rowMap.entrySet().stream()
+                .filter(entry -> entry.getKey() >= firstRowNum && entry.getKey() <= lastRowNum)
+                .forEach(entry -> {
+                    Row row = entry.getValue();
+                    row.getColCellMap().entrySet().stream()
+                            .filter(cellEntry -> ExcelHelper.getColIndex(cellEntry.getKey()) >= firstColIndex && ExcelHelper.getColIndex(cellEntry.getKey()) <= lastColIndex)
+                            .forEach(cellEntry -> {
+                                String colName = cellEntry.getKey();
+                                Cell cell = cellEntry.getValue();
+                                CellStyle cellStyle = cell.getCellStyle();
+                                if (colName.equals(firstColName)) {
+                                    cellStyle.setBorderLeftEnum(borderStyle);
+                                } else if (colName.equals(lastColName)) {
+                                    cellStyle.setBorderRightEnum(borderStyle);
+                                }
+                                cellStyle.setBorderTopEnum(borderStyle);
+                                cellStyle.setBorderBottomEnum(borderStyle);
+                                cell.setCellStyle(cellStyle);
+                            });
+                });
     }
 }
