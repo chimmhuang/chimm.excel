@@ -2,6 +2,7 @@ package com.github.chimmhuang.excel.demo;
 
 import com.github.chimmhuang.excel.ExcelHelper;
 import com.github.chimmhuang.excel.school.Score;
+import com.github.chimmhuang.excel.tablemodel.BorderPositionEnum;
 import com.github.chimmhuang.excel.tablemodel.ExcelWorkbook;
 import com.github.chimmhuang.excel.tablemodel.Row;
 import com.github.chimmhuang.excel.tablemodel.SheetTable;
@@ -9,6 +10,7 @@ import com.github.chimmhuang.excel.school.ClassScore;
 import com.github.chimmhuang.excel.school.GradesRanking;
 import com.github.chimmhuang.excel.school.SchoolReportData;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.junit.Test;
 
 import javax.swing.filechooser.FileSystemView;
@@ -114,6 +116,9 @@ public class Demo {
         // 合并单元格，【此处仅展示功能，需要合并的 rowNum 建议动态计算】
         table.mergeCell(13, 15, "A", "A");
         table.mergeCell(16, 19, "A", "A");
+
+        // 设置指定行的单元格样式，【此处仅展示功能：加粗，rowNum 建议动态计算】
+        table.getRow(19).setBorderStyle(BorderPositionEnum.BOTTOM, BorderStyle.MEDIUM);
 
         // 班级成绩设置好之后，将最后的校长评语添加进表格
         table.appendRow(row14);
