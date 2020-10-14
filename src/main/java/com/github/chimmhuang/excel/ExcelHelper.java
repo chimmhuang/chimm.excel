@@ -96,12 +96,22 @@ public class ExcelHelper {
 
     /**
      * 获取 sheet 页的表格信息
+     * get the sheet table with index 0
+     *
+     * @param bytes      excel binary file
+     */
+    public static SheetTable getSheetTable(byte[] bytes) throws IOException {
+        return getSheetTable(bytes, 0);
+    }
+
+    /**
+     * 获取 sheet 页的表格信息
      * get sheet table
      *
      * @param bytes      excel binary file
      * @param sheetIndex sheet index, start from 0
      */
-    public static SheetTable getSheetInnerTable(byte[] bytes, int sheetIndex) throws IOException {
+    public static SheetTable getSheetTable(byte[] bytes, int sheetIndex) throws IOException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook(byteArrayInputStream);
         return new SheetTable(xssfWorkbook.getSheetAt(sheetIndex));
@@ -114,7 +124,7 @@ public class ExcelHelper {
      * @param bytes     excel binary file
      * @param sheetName sheet name
      */
-    public static SheetTable getSheetInnerTable(byte[] bytes, String sheetName) throws IOException {
+    public static SheetTable getSheetTable(byte[] bytes, String sheetName) throws IOException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook(byteArrayInputStream);
         return new SheetTable(xssfWorkbook.getSheet(sheetName));
