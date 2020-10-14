@@ -32,7 +32,7 @@
 **模板文件：**
 ![template.png](./images/template.png)
 **处理后的文件：**
-![school_score_report.png](./images/school_score_report.png)
+![school_score_report.png](images/school_score_report.png)
 
 我提供了一个 `demo` 测试类。  
 模板具体位置： `src/test/resources/demo.xlsx`   
