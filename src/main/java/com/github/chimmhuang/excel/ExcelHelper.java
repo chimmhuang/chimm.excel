@@ -1,7 +1,12 @@
 package com.github.chimmhuang.excel;
 
+import com.github.chimmhuang.excel.parser.VariableParserBaseVisitor;
 import com.github.chimmhuang.excel.parser.VariableParserLexer;
 import com.github.chimmhuang.excel.parser.VariableParserParser;
+import com.github.chimmhuang.excel.parser.VariableParserParser.ExprContext;
+import com.github.chimmhuang.excel.parser.VariableParserParser.ExprListContext;
+import com.github.chimmhuang.excel.parser.VariableParserParser.FormulaContext;
+import com.github.chimmhuang.excel.parser.VariableParserParser.VarContext;
 import com.github.chimmhuang.excel.tablemodel.Cell;
 import com.github.chimmhuang.excel.tablemodel.CellStyle;
 import com.github.chimmhuang.excel.tablemodel.Font;
@@ -125,16 +130,63 @@ public class ExcelHelper {
     public static void fillInData(SheetTable table, Object data) {
         for (Cell cell : table) {
             Object value = cell.getValue();
+            CellType cellType = cell.getCellType();
 
-            // insert value
-            if (value instanceof String && ((String) value).startsWith("$")) {
+            if (cellType.equals(CellType.FORMULA) && value != null) {
+                // insert formula
+                VariableParserLexer lexer = new VariableParserLexer(CharStreams.fromString(value.toString()));
+                CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+                // syntax analysis
+                VariableParserParser parser = new VariableParserParser(tokens);
+
+                String newFormula = (String) parser.expr().accept(new VariableParserBaseVisitor<Object>() {
+                    /**
+                     * formula
+                     * e.g. SUM(A1,A2,${demo.value})
+                     */
+                    @Override
+                    public String visitFormula(FormulaContext ctx) {
+                        String formula = ctx.getText();
+                        ExprListContext exprListContext = ctx.exprList();
+                        String oldExprList = exprListContext.getText();
+                        String newExprList = visitExprList(exprListContext);
+                        return formula.replace(oldExprList, newExprList);
+                    }
+
+                    /**
+                     * exprList
+                     * e.g. A1,A2,${demo.value}
+                     */
+                    @Override
+                    public String visitExprList(ExprListContext ctx) {
+                        String exprList = ctx.getText();
+                        for (ExprContext exprContext : ctx.expr()) {
+                            String expr = exprContext.getText();
+                            if (expr.startsWith("$")) {
+                                Object visit = super.visit(exprContext);
+                                exprList = exprList.replace(expr, visit == null ? "" : visit.toString());
+                            }
+                        }
+                        return exprList;
+                    }
+
+                    /**
+                     * var
+                     * e.g. ${demo.value}
+                     */
+                    @Override
+                    public Object visitVar(VarContext ctx) {
+                        String propName = ctx.getText();
+                        return parseCellVariable(data, propName);
+                    }
+                });
+
+                cell.setFormula(newFormula);
+            } else if (value instanceof String && ((String) value).startsWith("$")) {
+                // insert value
                 Object propValue = parseCellVariable(data, (String) value);
                 cell.setValue(propValue);
-            }
-
-            // insert formula
-            if (value instanceof String && ((String) value).startsWith("=")) {
-                cell.setFormula((String) value);
             }
         }
     }
@@ -347,7 +399,6 @@ public class ExcelHelper {
                 }
             }
         }
-
         return propValue;
     }
 

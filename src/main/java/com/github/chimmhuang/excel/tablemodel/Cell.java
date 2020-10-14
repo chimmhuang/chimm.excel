@@ -116,6 +116,10 @@ public class Cell implements Serializable {
      */
     public void setValue(Object value) {
         this.value = value;
+        if (value == null) {
+            return;
+        }
+
         switch (value.getClass().getName()) {
             case "java.lang.Double":
             case "java.math.BigDecimal":
