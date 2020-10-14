@@ -14,31 +14,38 @@
 - [x] 导出excel二进制文件
 - [x] 根据模板中的变量，将值写入
 - [x] 支持公式
-    - [ ] 支持带变量的公式，如：`SUM(A1,A2,${demo.value})`
+    - [x] 支持带变量的公式，如：`SUM(A1,A2,${demo.value})`
 - [x] 操作表格添加/减少行
     - [x] ⭐️添加行会自动更新公式
 - [x] 合并单元格
 - [x] 更改单元格边框样式（加粗、虚线等）
 
-应用场景：
-- 导出表格数据
-- 动态组装表格数据
-
 优点：
-- 可以自定义模板，可以更加灵活的控制表格样式
-- 通用变量的方式操作模板
-- 提供了 `POI` 原生操作方式
-
-缺点：
-- 稍微多一点工作量（基本都在模板设置上，设置好了就ok了）
+- 通过模板的方式动态生成 excel 表格，许多复杂样式直接在 excel 程序里设置完毕即可，减少代码层面操作。
+- 通用新建数据对象的方式填充模板数据，一个表格对应一个数据对象，开发人员只需查询数据、组装数据即可。
+- 可以自定义模板，灵活控制表格的新增行、减少行、合并行等。
+- 支持变量公式。
 
 如何制作模板？非常简单，使用`$`符号定义变量即可，如： `${demo.list[0].name}`，具体可以参照`src/test/java/resources/demo.xlsx`
 
-## 2. 起步
+## 2. 程序演示
+
+### 2.1 demo文件演示
+我提供了一个 `demo` 测试类。  
+模板具体位置： `src/test/resources/demo.xlsx`   
+测试类的具体位置：`src/test/java/../demo/Demo.java`
+
+### 2.2 详细操作说明
+wiki（GitHub）：todo...
+wiki（码云）：todo...
+CSDN：todo...
+
+
+## 3. 起步
 1. 配置模板
 2. 导入坐标
 ```
-// 等待上传。。。
+// todo...
 ```
 3. 如何使用？
 ```java
@@ -52,7 +59,7 @@ public void testFillInTable() throws Exception {
     ExcelWorkbook excelWorkbook = ExcelHelper.createWorkbook(bytes);
 
     // 获取指定的 sheet 页
-    InnerTable table = excelWorkbook.getSheet(0);
+    SheetTable table = excelWorkbook.getSheet(0);
 
     // 封装表格数据对象
     SchoolReportData tableData = new SchoolReportData();
@@ -65,12 +72,12 @@ public void testFillInTable() throws Exception {
     ExcelHelper.fillInData(table, tableData);
 
     // 将表格对象转换为二进制，resultBytes 即是最终想要的结果
-    byte[] resultBytes = ExcelHelper.convert2Byte(excelWorkbook);
+    byte[] resultBytes = ExcelHelper.convert2Byte(table);
 }
 ```
 
-## 3. 参与贡献
+## 4. 参与贡献
 非常欢迎你的加入！[提一个 Issue](https://github.com/chimmhuang/chimm.excel/issues/new) 或者提交一个 Pull Request。
 
-## 4. 开源协议
+## 5. 开源协议
 [Apache 2.0](LICENSE) © Chimm Huang
