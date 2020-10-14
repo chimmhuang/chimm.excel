@@ -26,11 +26,14 @@
 - 可以自定义模板，灵活控制表格的新增行、减少行、合并行等。
 - 支持变量公式。
 
-如何制作模板？非常简单，使用`$`符号定义变量即可，如： `${demo.list[0].name}`，具体可以参照`src/test/java/resources/demo.xlsx`
-
 ## 2. 程序演示
 
 ### 2.1 demo文件演示
+**模板文件：**
+![template.png](./images/template.png)
+**处理后的文件：**
+![school_score_report.png](./images/school_score_report.png)
+
 我提供了一个 `demo` 测试类。  
 模板具体位置： `src/test/resources/demo.xlsx`   
 测试类的具体位置：`src/test/java/../demo/Demo.java`
