@@ -47,7 +47,7 @@ public class Demo {
                        开始组装表格数据
             ====================================
          */
-        tableData.setTitle("中和中学成绩单");
+        tableData.setTitle("xx中学成绩单");
 
         GradesRanking gradesRanking = new GradesRanking();
         Score top1 = new Score("李华", BigDecimal.valueOf(285), BigDecimal.valueOf(90), BigDecimal.valueOf(95), BigDecimal.valueOf(100));
@@ -75,7 +75,7 @@ public class Demo {
                 new ClassScore(2,"高一2班", "李四", BigDecimal.valueOf(250), BigDecimal.valueOf(80), BigDecimal.valueOf(90), BigDecimal.valueOf(80)));
         tableData.setClassScoreList(classScoreList);
 
-        tableData.setPrincipalComment("允德允能");
+        tableData.setPrincipalComment("你们都是祖国未来的希望！");
 
         /*
             ====================================
