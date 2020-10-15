@@ -39,8 +39,8 @@
 测试类的具体位置：`src/test/java/../demo/Demo.java`
 
 ### 2.2 详细操作说明
-wiki（GitHub）：todo...
-wiki（码云）：todo...
+wiki（GitHub）：https://github.com/chimmhuang/chimm.excel/wiki  
+wiki（码云）：https://gitee.com/chimmhuang/chimm.excel/wikis  
 CSDN：todo...
 
 
