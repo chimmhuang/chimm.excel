@@ -42,16 +42,20 @@
 ### 2.2 详细操作说明
 wiki（GitHub）：https://github.com/chimmhuang/chimm.excel/wiki  
 wiki（码云）：https://gitee.com/chimmhuang/chimm.excel/wikis  
-CSDN：todo...
 
 
 ## 3. 起步
 1. 配置模板
+详细配置可以参照：`src/test/resources/demo.xlsx`
 2. 导入坐标
+```xml
+<dependency>
+    <groupId>com.github.chimmhuang</groupId>
+    <artifactId>chimm.excel</artifactId>
+    <version>1.0</version>
+</dependency>
 ```
-// todo...
-```
-3. 如何使用？
+3. 入门程序
 ```java
 @Test
 public void testFillInTable() throws Exception {
@@ -68,7 +72,7 @@ public void testFillInTable() throws Exception {
     // 封装表格数据对象
     SchoolReportData tableData = new SchoolReportData();
 
-    tableData.setTitle("中和中学成绩单");
+    tableData.setTitle("xx中学成绩单");
     // ... 填充数据 ...
     // ...
     
