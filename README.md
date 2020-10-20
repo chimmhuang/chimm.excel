@@ -8,7 +8,6 @@
 </p>
 
 ```
-
             _____ _     _                       _____             _ 
            /  __ \ |   (_)                     |  ___|           | |
            | /  \/ |__  _ _ __ ___  _ __ ___   | |____  _____ ___| |
@@ -106,7 +105,7 @@ public void testFillInTable() throws Exception {
 非常欢迎你的加入！[提一个 Issue](https://github.com/chimmhuang/chimm.excel/issues/new) 或者提交一个 Pull Request。
 
 ##  5. 联系作者
-`QQ & 微信`：`905369866`
+`QQ & 微信`：`905369866`  
 `email`：`chimmhuang@163.com`
 
 ## 6. 开源协议
