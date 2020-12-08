@@ -3,7 +3,7 @@
 
 
 <div align="center">
-<img src="./images/icon.png"/>
+<img src="./images/icon.png" width="600px" height="150px" align="center"/>
 <p>
 	<img src='https://img.shields.io/badge/License-Apache--2.0-brightgreen' alt='lisence'></img>
 	<img src="https://img.shields.io/badge/JDK-1.8-9cf" alt='jdk'></img>
