@@ -6,6 +6,7 @@
 <img src="./images/icon.png" width="600px" height="150px" align="center"/>
 <p>
 	<img src='https://img.shields.io/badge/License-Apache--2.0-brightgreen' alt='lisence'></img>
+	<img src="https://img.shields.io/badge/version-v1.0.1-orange" alt='version'></img>
 	<img src="https://img.shields.io/badge/JDK-1.8-9cf" alt='jdk'></img>
 	<img src="https://img.shields.io/badge/Apache--POI-4.1.2-blue" alt='poi'></img>
 	<img src="https://img.shields.io/badge/Antlr-4-critical" alt='antlr4'></img>
