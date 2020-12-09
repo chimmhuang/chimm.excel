@@ -58,16 +58,14 @@ public class ExcelHelper {
     public static String getColName(Integer index) {
         StringBuilder sb = new StringBuilder();
         int length = COL_SET.length;
-        int idx = index + 1;
-        while (idx > length) {
+        int idx = index;
+        while (idx > length - 1) {
             idx = idx / length;
-            long b = idx % length;
-            sb.append(COL_SET[(int) b - 1]);
+            sb.append(COL_SET[idx - 1]);
         }
-        sb.append(COL_SET[idx - 1]);
-        return sb.reverse().toString();
+        sb.append(COL_SET[index % length]);
+        return sb.toString();
     }
-
 
     public static Integer getColIndex(String name) {
         String colSet = new String(COL_SET);
@@ -76,7 +74,7 @@ public class ExcelHelper {
         for (int index = chars.length - 1; index >= 0; index--) {
             char ch = chars[index];
             int i = colSet.indexOf(ch);
-            result += (i + 1) * Math.pow(chars.length, chars.length - index - 1d);
+            result += (i + 1) * Math.pow(COL_SET.length, chars.length - index - 1d);
         }
         return result - 1;
     }
