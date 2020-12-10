@@ -245,6 +245,9 @@ public class ExcelHelper {
                     default:
                         if (value != null) {
                             switch (value.getClass().getName()) {
+                                case "java.lang.Integer":
+                                    xssfCell.setCellValue((Integer) value);
+                                    break;
                                 case "java.lang.Double":
                                     xssfCell.setCellValue((Double) value);
                                     break;

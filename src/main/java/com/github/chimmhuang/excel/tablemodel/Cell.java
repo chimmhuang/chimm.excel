@@ -121,6 +121,7 @@ public class Cell implements Serializable {
         }
 
         switch (value.getClass().getName()) {
+            case "java.lang.Integer":
             case "java.lang.Double":
             case "java.math.BigDecimal":
             case "java.util.Date":
