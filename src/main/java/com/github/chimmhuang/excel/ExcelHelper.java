@@ -429,6 +429,11 @@ public class ExcelHelper {
             return null;
         }
 
+        if (obj instanceof Map) {
+            Map mapObj = (Map) obj;
+            return mapObj.get(propName);
+        }
+
         Field declaredField = null;
         try {
             declaredField = obj.getClass().getDeclaredField(propName);
