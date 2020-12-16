@@ -3,7 +3,7 @@
 
 ### Bug Fixes
 
-* 生成的 excel 单元格出现黑色背景 ([816650d](https://gitee.com/chimmhuang/chimm.excel/commit/816650d94d12176f08c81fd7cd916e7ce95ee570)), closes [#I29P3](https://gitee.com/chimmhuang/chimm.excel/issues/I29P3)
+* 生成的 excel 单元格出现黑色背景 ([816650d](https://gitee.com/chimmhuang/chimm.excel/commit/816650d94d12176f08c81fd7cd916e7ce95ee570)), closes [#I29P3Y](https://gitee.com/chimmhuang/chimm.excel/issues/I29P3Y)
 
 
 ### Features

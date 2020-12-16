@@ -6,7 +6,7 @@
 <img src="./images/icon.png" width="600px" height="150px" align="center"/>
 <p>
     <img src="https://gitee.com/chimmhuang/chimm.excel/badge/star.svg?theme=dark" alt="gitee_star"/>
-    <img src="https://gitee.com/chimmhuang/chimm.excel/badge/star.svg?theme=dark" alt="gitee_fork"/>
+    <img src="https://gitee.com/chimmhuang/chimm.excel/badge/fork.svg?theme=dark" alt="gitee_fork"/>
 </p>
 <p>
 	<img src='https://img.shields.io/badge/License-Apache--2.0-brightgreen' alt='lisence'></img>
