@@ -109,7 +109,7 @@
 - `mergeCell(int firstRowNum, int lastRowNum, String firstColName, String lastColName)`    
     合并单元格
 
-- `setBorderStyle(int firstRowNum, int lastRowNum, String firstColName, String lastColName, BorderStyle borderStyle)`    
+- `setBorderStyle(int firstRowNum, int lastRowNum, String firstColName, String lastColName, BorderStyle borderStyle, BorderPositionEnum borderPositionEnum)`    
     设置指定范围的边框的样式，你可以更改边框的样式，如粗线、虚线等
     
 ### 3.4 Row - 行对象
