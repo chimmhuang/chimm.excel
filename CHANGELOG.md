@@ -1,3 +1,17 @@
+# [](https://github.com/chimmhuang/chimm.excel/compare/v1.0.1...v) (2020-12-16)
+
+
+### Bug Fixes
+
+* 生成的 excel 单元格出现黑色背景 ([816650d](https://gitee.com/chimmhuang/chimm.excel/commit/816650d94d12176f08c81fd7cd916e7ce95ee570)), closes [#I29P3](https://gitee.com/chimmhuang/chimm.excel/issues/I29P3)
+
+
+### Features
+
+* 单元格加粗新增指定列名范围加粗 ([b5c98aa](https://github.com/chimmhuang/chimm.excel/commit/b5c98aad6e23bf8116da10edf764c1359182e65d)), closes [#4](https://github.com/chimmhuang/chimm.excel/issues/4)
+* 支持map格式 ([c352007](https://gitee.com/chimmhuang/chimm.excel/commit/c352007c568340e62493fe8ad91e0c1639c0fb2d)), closes [#I294Y2](https://gitee.com/chimmhuang/chimm.excel/issues/I294Y2)
+
+
 #  (2020-12-10)
 
 
