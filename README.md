@@ -5,12 +5,20 @@
 <div align="center">
 <img src="./images/icon.png" width="600px" height="150px" align="center"/>
 <p>
+    <img src="https://gitee.com/chimmhuang/chimm.excel/badge/star.svg?theme=dark" alt="gitee_star"/>
+    <img src="https://gitee.com/chimmhuang/chimm.excel/badge/star.svg?theme=dark" alt="gitee_fork"/>
+</p>
+<p>
 	<img src='https://img.shields.io/badge/License-Apache--2.0-brightgreen' alt='lisence'></img>
-	<img src="https://img.shields.io/badge/version-v1.0.1-orange" alt='version'></img>
+	<img src="https://img.shields.io/badge/version-v1.1.0-orange" alt='version'></img>
 	<img src="https://img.shields.io/badge/JDK-1.8-9cf" alt='jdk'></img>
 	<img src="https://img.shields.io/badge/Apache--POI-4.1.2-blue" alt='poi'></img>
 	<img src="https://img.shields.io/badge/Antlr-4-critical" alt='antlr4'></img>
 </p>
+
+<div align="center">
+<a href="https://gitee.com/chimmhuang/chimm.excel">码云</a> | <a href="https://github.com/chimmhuang/chimm.excel">GitHub</a>
+</div>
 </div>
 
 
@@ -27,7 +35,7 @@
 3. excel 模板如何生成？  
 模板生成非常的简单，我们定义变量的时候，只需要使用 `$` + `大小括号` 包围的形式即可，如：`${school.name}`。
 
-4. `Chimm.Excel` 功能简介（v1.0）
+4. `Chimm.Excel` 功能简介
 	- [x] 导出excel二进制文件
 	- [x] 根据模板中的变量，将值写入
 	- [x] 支持公式
@@ -140,7 +148,7 @@
 <dependency>
     <groupId>com.github.chimmhuang</groupId>
     <artifactId>chimm.excel</artifactId>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 

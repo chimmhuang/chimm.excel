@@ -307,14 +307,14 @@ public class SheetTable implements Iterable<Cell> {
     /**
      * 设置指定范围的边框的样式，你可以更改边框的样式，如粗线、虚线等
      * set border style of the specified range, you can change the style of the border, such as thick line, dotted line, etc.
-     *
+     * <p>
      * row-num start from 1.
      * col-name start from "A"
      *
      * @param borderStyle style enum
+     * @param borderPositionEnum position enum
      */
-    public void setBorderStyle(int firstRowNum, int lastRowNum, String firstColName, String lastColName, BorderStyle borderStyle) {
-
+    public void setBorderStyle(int firstRowNum, int lastRowNum, String firstColName, String lastColName, BorderStyle borderStyle, BorderPositionEnum borderPositionEnum) {
         Integer firstColIndex = ExcelHelper.getColIndex(firstColName);
         Integer lastColIndex = ExcelHelper.getColIndex(lastColName);
 
@@ -328,13 +328,31 @@ public class SheetTable implements Iterable<Cell> {
                                 String colName = cellEntry.getKey();
                                 Cell cell = cellEntry.getValue();
                                 CellStyle cellStyle = cell.getCellStyle();
-                                if (colName.equals(firstColName)) {
-                                    cellStyle.setBorderLeftEnum(borderStyle);
-                                } else if (colName.equals(lastColName)) {
-                                    cellStyle.setBorderRightEnum(borderStyle);
+
+                                switch (borderPositionEnum) {
+                                    case AROUND:
+                                        if (colName.equals(firstColName)) {
+                                            cellStyle.setBorderLeftEnum(borderStyle);
+                                        } else if (colName.equals(lastColName)) {
+                                            cellStyle.setBorderRightEnum(borderStyle);
+                                        }
+                                        cellStyle.setBorderTopEnum(borderStyle);
+                                        cellStyle.setBorderBottomEnum(borderStyle);
+                                        break;
+                                    case LEFT:
+                                        cellStyle.setBorderLeftEnum(borderStyle);
+                                        break;
+                                    case RIGHT:
+                                        cellStyle.setBorderRightEnum(borderStyle);
+                                        break;
+                                    case TOP:
+                                        cellStyle.setBorderTopEnum(borderStyle);
+                                        break;
+                                    case BOTTOM:
+                                        cellStyle.setBorderBottomEnum(borderStyle);
+                                        break;
+                                    default:break;
                                 }
-                                cellStyle.setBorderTopEnum(borderStyle);
-                                cellStyle.setBorderBottomEnum(borderStyle);
                                 cell.setCellStyle(cellStyle);
                             });
                 });

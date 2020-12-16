@@ -323,12 +323,20 @@ public class ExcelHelper {
         xssfCellStyle.setLeftBorderColor(cellStyle.getLeftBorderColor());
         xssfCellStyle.setRightBorderColor(cellStyle.getRightBorderColor());
 
-        xssfCellStyle.setFillBackgroundColor(cellStyle.getFillBackgroundColor());
-        xssfCellStyle.setFillForegroundColor(cellStyle.getFillForegroundColor());
+        xssfCellStyle.setFillBackgroundColor(cellStyle.getFillBackgroundXSSFColor());
+        xssfCellStyle.setFillForegroundColor(cellStyle.getFillForegroundXSSFColor());
+        xssfCellStyle.setFillPattern(cellStyle.getFillPattern());
 
         xssfCellStyle.setDataFormat(cellStyle.getDataFormat());
         xssfCellStyle.setHidden(cellStyle.getHidden());
         xssfCellStyle.setLocked(cellStyle.getLocked());
+
+        xssfCellStyle.setIndention(cellStyle.getIndention());
+        xssfCellStyle.setWrapText(cellStyle.getWrapText());
+        xssfCellStyle.setShrinkToFit(cellStyle.getShrinkToFit());
+        xssfCellStyle.setReadingOrder(cellStyle.getReadingOrder());
+        xssfCellStyle.setQuotePrefixed(cellStyle.getQuotePrefixed());
+        xssfCellStyle.setRotation(cellStyle.getRotation());
 
         xssfCellStyle.setAlignment(cellStyle.getAlignmentEnum());
         xssfCellStyle.setVerticalAlignment(cellStyle.getVerticalAlignmentEnum());
@@ -427,6 +435,11 @@ public class ExcelHelper {
 
         if (obj == null || propName == null) {
             return null;
+        }
+
+        if (obj instanceof Map) {
+            Map mapObj = (Map) obj;
+            return mapObj.get(propName);
         }
 
         Field declaredField = null;
