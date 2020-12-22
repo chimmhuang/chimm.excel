@@ -42,7 +42,7 @@
     	- [x] 支持带变量的公式，如：`SUM(A1,A2,${demo.value})`
 	- [x] 操作表格添加/减少行
     	- [x] ⭐️添加行会自动更新公式
-	- [x] 合并单元格
+	- [x] 合并单元格（支持批量合并）
 	- [x] 更改单元格边框样式（加粗、虚线等）
 
 ## 2. 功能展示
@@ -107,6 +107,7 @@
     在表格最后添加一行
 
 - `mergeCell(int firstRowNum, int lastRowNum, String firstColName, String lastColName)`    
+- `mergeCellBatch(List<MergedRegion> mergedRegionList)`
     合并单元格
 
 - `setBorderStyle(int firstRowNum, int lastRowNum, String firstColName, String lastColName, BorderStyle borderStyle, BorderPositionEnum borderPositionEnum)`    
