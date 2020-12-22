@@ -298,10 +298,32 @@ public class SheetTable implements Iterable<Cell> {
      * col name start from "A"
      */
     public void mergeCell(int firstRowNum, int lastRowNum, String firstColName, String lastColName) {
+        MergedRegion mergedRegion = new MergedRegion(firstRowNum, lastRowNum, firstColName, lastColName);
+        this.mergeCell(mergedRegion);
+    }
+
+    /**
+     * 合并单元格
+     * merge cells
+     *
+     * @param mergedRegion 合并类
+     */
+    public void mergeCell(MergedRegion mergedRegion) {
+        int firstRowNum = mergedRegion.getFirstRowNum();
+        String firstColName = mergedRegion.getFirstColName();
         Row row = rowMap.get(firstRowNum);
         Cell cell = row.getCell(firstColName);
-        MergedRegion mergedRegion = new MergedRegion(firstRowNum, lastRowNum, firstColName, lastColName);
         cell.setMergedRegion(mergedRegion);
+    }
+
+    /**
+     * 合并单元格
+     * merge cells
+     *
+     * @param mergedRegionList 合并类集合
+     */
+    public void mergeCellBatch(List<MergedRegion> mergedRegionList) {
+        mergedRegionList.forEach(this::mergeCell);
     }
 
     /**

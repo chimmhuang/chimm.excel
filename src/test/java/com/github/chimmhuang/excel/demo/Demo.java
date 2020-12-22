@@ -4,6 +4,7 @@ import com.github.chimmhuang.excel.ExcelHelper;
 import com.github.chimmhuang.excel.school.Score;
 import com.github.chimmhuang.excel.tablemodel.BorderPositionEnum;
 import com.github.chimmhuang.excel.tablemodel.ExcelWorkbook;
+import com.github.chimmhuang.excel.tablemodel.MergedRegion;
 import com.github.chimmhuang.excel.tablemodel.Row;
 import com.github.chimmhuang.excel.tablemodel.SheetTable;
 import com.github.chimmhuang.excel.school.ClassScore;
@@ -116,6 +117,9 @@ public class Demo {
         // 合并单元格，【此处仅展示功能，需要合并的 rowNum 建议动态计算】
         table.mergeCell(13, 15, "A", "A");
         table.mergeCell(16, 19, "A", "A");
+//        MergedRegion mergedRegion1 = new MergedRegion(13, 15, "A", "A");
+//        MergedRegion mergedRegion2 = new MergedRegion(16, 19, "A", "A");
+//        table.mergeCellBatch(Arrays.asList(mergedRegion1, mergedRegion2));
 
         // 设置指定行的单元格样式，【此处仅展示功能：加粗，rowNum 建议动态计算】
         table.getRow(19).setBorderStyle(BorderPositionEnum.BOTTOM, BorderStyle.MEDIUM);
