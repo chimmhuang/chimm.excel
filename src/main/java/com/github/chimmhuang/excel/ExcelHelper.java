@@ -21,11 +21,14 @@ import com.github.chimmhuang.excel.tablemodel.MergedRegion;
 import com.github.chimmhuang.excel.tablemodel.Row;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFCreationHelper;
 import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFHyperlink;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -210,6 +213,7 @@ public class ExcelHelper {
 
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
         XSSFSheet xssfSheet = xssfWorkbook.createSheet(table.getSheetName());
+        XSSFCreationHelper xssfCreationHelper = new XSSFCreationHelper(xssfWorkbook);
 
         // set sheet style
         Map<Integer, Integer> colWidthMap = table.getColWidthMap();
@@ -293,6 +297,14 @@ public class ExcelHelper {
                     xssfSheet.addMergedRegion(cellRangeAddress);
                 }
 
+                // set hyper link
+                String hyperlink = cell.getHyperlink();
+                HyperlinkType hyperlinkType = cell.getHyperlinkType();
+                if (hyperlink != null && !"".equals(hyperlink) && hyperlinkType != null) {
+                    XSSFHyperlink link = xssfCreationHelper.createHyperlink(hyperlinkType);
+                    link.setAddress(hyperlink);
+                    xssfCell.setHyperlink(link);
+                }
             }
         }
 

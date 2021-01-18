@@ -95,7 +95,6 @@ public class Demo {
         Map<Integer, List<ClassScore>> classScoreMap = tableData.getClassScoreList().stream()
                 .collect(Collectors.groupingBy(ClassScore::getClassId));
         for (Entry<Integer, List<ClassScore>> entry : classScoreMap.entrySet()) {
-            Integer classId = entry.getKey();
             for (ClassScore classScore : entry.getValue()) {
                 // 复制模板的第13行
                 Row copy = row13.copy();
@@ -116,9 +115,15 @@ public class Demo {
         // 合并单元格，【此处仅展示功能，需要合并的 rowNum 建议动态计算】
         table.mergeCell(13, 15, "A", "A");
         table.mergeCell(16, 19, "A", "A");
+//        MergedRegion mergedRegion1 = new MergedRegion(13, 15, "A", "A");
+//        MergedRegion mergedRegion2 = new MergedRegion(16, 19, "A", "A");
+//        table.mergeCellBatch(Arrays.asList(mergedRegion1, mergedRegion2));
 
         // 设置指定行的单元格样式，【此处仅展示功能：加粗，rowNum 建议动态计算】
         table.getRow(19).setBorderStyle(BorderPositionEnum.BOTTOM, BorderStyle.MEDIUM);
+
+        // 设置超链接
+        table.getRow(2).getCell("A").setHyperlinkURL("https://www.baidu.com");
 
         // 班级成绩设置好之后，将最后的校长评语添加进表格
         table.appendRow(row14);
