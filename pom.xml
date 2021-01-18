@@ -6,7 +6,7 @@
 
     <groupId>com.github.chimmhuang</groupId>
     <artifactId>chimm.excel</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <packaging>jar</packaging>
     <name>chimm.excel</name>
     <description>chimm.excel 是一款能够简单操作 excel 的程序，该程序提供了如：填充excel模板数据、动态更改表格样式、导出excel等功能，降低了我们对excel的操作难度</description>

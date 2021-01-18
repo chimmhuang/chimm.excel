@@ -10,7 +10,7 @@
 </p>
 <p>
 	<img src='https://img.shields.io/badge/License-Apache--2.0-brightgreen' alt='lisence'></img>
-	<img src="https://img.shields.io/badge/version-v1.1.0-orange" alt='version'></img>
+	<img src="https://img.shields.io/badge/version-v1.2.0-orange" alt='version'></img>
 	<img src="https://img.shields.io/badge/JDK-1.8-9cf" alt='jdk'></img>
 	<img src="https://img.shields.io/badge/Apache--POI-4.1.2-blue" alt='poi'></img>
 	<img src="https://img.shields.io/badge/Antlr-4-critical" alt='antlr4'></img>
@@ -23,19 +23,27 @@
 
 
 ## 1. 项目介绍
-1. `Chimm.Excel` 是什么？  
-该程序是一个基于 Apache POI 和 Antlr4 打造的 excel 生成的 Java 工具，主要作用在于减少了开发人员通过程序生成表格的工作量，提高了工作效率。
+### 1.1 简介
+`Chimm.Excel` 是什么？ 
+该程序是一个用 Java 写的 Excel 生成工具，基于模板操作，简单，快捷，易上手。
 
-2. `Chimm.Excel` 的优势是什么？
-	- 和网上部分的开源软件的区别是，该程序是基于 excel 模板进行工作的，并非基于注解。也就是说，我们首先需要在 office 中编写好我们的 excel 模板才行，优势在于，我们可以直接在 office 中就直接定制化表格的样式，也就是说，样式直接由 excel 软件进行控制了，这大大降低了我们在程序中操作样式的时间。
-	- 由于该程序是基于 `Antlr4` 进行开发的，所以在变量定义上面，非常的灵活，我们可以定义集合变量，甚至我们还可以在公式中定义变量。一个表格对应一个数据对象，开发人员只需查询数据、组装数据即可。
-    - 可以自定义模板样式，该程序也提供了部分操作表格样式的功能，如：复制一行、合并单元格、更改边框样式等等。
-    - 主要的重点功能暂时介绍这么多，这些功能基本能解决绝大部分问题了。如果各位遇到了其他需要解决的应用场景，欢迎评论提出 `issue`，我们一起探讨。
+### 1.2 特性
+1. 数据组装方式大有不同
+   
+   和网上部分开源软件的区别是，这个程序是基于 excel 模板驱动的，需要在模版里填写变量名称，而并非在程序中添加注解。
 
-3. excel 模板如何生成？  
+2. 为什么不采用基于注解的方式？
+
+   网上一些基于注解的 excel 导出，基本上只能导出简单的表格样式。该程序使用的是 excel 模板，所以可以导出一些比较复杂的表格样式。
+
+3. Antlr4
+   
+   Antlr (ANother Tool for Language Recognition) 是一个强大的跨语言语法解析器，可以用来读取、处理、执行或翻译结构化文本或二进制文件。它被广泛用来构建语言，工具和框架。Antlr可以从语法上来生成一个可以构建和遍历解析树的解析器。由于该程序是基于 `Antlr4` 进行开发的，所以在变量定义上面，非常的灵活，我们可以定义集合变量，甚至我们还可以在公式中定义变量。一个表格对应一个数据对象，开发人员只需查询数据、组装数据即可。
+
+4. excel 模板如何生成？  
 模板生成非常的简单，我们定义变量的时候，只需要使用 `$` + `大小括号` 包围的形式即可，如：`${school.name}`。
-
-4. `Chimm.Excel` 功能简介
+   
+5. `Chimm.Excel` 功能简介
 	- [x] 导出excel二进制文件
 	- [x] 根据模板中的变量，将值写入
 	- [x] 支持公式
@@ -44,6 +52,7 @@
     	- [x] ⭐️添加行会自动更新公式
 	- [x] 合并单元格（支持批量合并）
 	- [x] 更改单元格边框样式（加粗、虚线等）
+    - [x] 支持设置超链接（v1.2.0）
 
 ## 2. 功能展示
 
@@ -149,7 +158,7 @@
 <dependency>
     <groupId>com.github.chimmhuang</groupId>
     <artifactId>chimm.excel</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
@@ -267,6 +276,23 @@ public void testFillInTable() throws Exception {
     
     // 设置指定行的单元格样式，【此处仅展示功能：加粗，rowNum 建议动态计算】
     table.getRow(19).setBorderStyle(BorderPositionEnum.BOTTOM, BorderStyle.MEDIUM);
+}
+```
+
+#### 4.3.6 设置超链接
+```java
+public void testFillInTable() throws Exception {
+    /*
+        获取文件的二进制
+        通过 ExcelHelper 获取 excel 表格对象
+        ...
+     */
+
+    // 获取指定的 sheet 页（该对象即是我们设置好的表格模板）
+    SheetTable table = excelWorkbook.getSheet(0);
+
+    // 设置超链接
+    table.getRow(2).getCell("A").setHyperlinkURL("https://www.baidu.com");
 }
 ```
 
