@@ -1,10 +1,14 @@
 package com.github.chimmhuang.excel.tablemodel;
 
 import com.github.chimmhuang.excel.ExcelHelper;
+import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FontUnderline;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFHyperlink;
 
 import java.io.Serializable;
 
@@ -24,6 +28,8 @@ public class Cell implements Serializable {
     private CellStyle cellStyle;
     private CellType cellType;
     private MergedRegion mergedRegion;
+    private String hyperlink;
+    private HyperlinkType hyperlinkType;
     private Object value;
 
     public Cell(XSSFCell xssfCell) {
@@ -64,6 +70,12 @@ public class Cell implements Serializable {
 
             this.mergedRegion = new MergedRegion(firstRow + 1, lastRow + 1, ExcelHelper.getColName(firstColumn), ExcelHelper.getColName(lastColumn));
         }
+
+        XSSFHyperlink xssfHyperlink = xssfCell.getHyperlink();
+        if (xssfHyperlink != null) {
+            this.hyperlink = xssfHyperlink.getAddress();
+            this.hyperlinkType = xssfHyperlink.getType();
+        }
     }
 
     public int getRow() {
@@ -97,6 +109,30 @@ public class Cell implements Serializable {
     public void setCellType(CellType cellType) {
         this.cellType = cellType;
     }
+
+    public String getHyperlink() {
+        return hyperlink;
+    }
+
+    public HyperlinkType getHyperlinkType() {
+        return hyperlinkType;
+    }
+
+    /**
+     * 设置超链接
+     * set hyper link
+     *
+     * @param hyperlink 链接地址
+     * @param hyperlinkType 超链接类型
+     * @param fontUnderline 下划线类型
+     */
+    public void setHyperlink(String hyperlink, HyperlinkType hyperlinkType, FontUnderline fontUnderline) {
+        this.hyperlink = hyperlink;
+        this.hyperlinkType = hyperlinkType;
+        this.cellStyle.getFont().setUnderline(fontUnderline);
+        this.cellStyle.getFont().setColor(IndexedColors.BLUE);
+    }
+
 
     public MergedRegion getMergedRegion() {
         return mergedRegion;
@@ -184,5 +220,15 @@ public class Cell implements Serializable {
                 cellStyle.setBorderRightEnum(borderStyle);
                 break;
         }
+    }
+
+    /**
+     * 设置超链接（URL）
+     * set hyper link(url)
+     *
+     * @param url hyper link
+     */
+    public void setHyperlinkURL(String url) {
+        this.setHyperlink(url, HyperlinkType.URL, FontUnderline.SINGLE);
     }
 }

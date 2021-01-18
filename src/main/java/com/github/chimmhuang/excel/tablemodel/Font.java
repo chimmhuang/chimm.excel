@@ -1,6 +1,8 @@
 package com.github.chimmhuang.excel.tablemodel;
 
 import org.apache.poi.ss.usermodel.FontScheme;
+import org.apache.poi.ss.usermodel.FontUnderline;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 
 import java.io.Serializable;
@@ -62,8 +64,15 @@ public class Font implements Serializable {
         return color;
     }
 
-    public void setColor(short color) {
-        this.color = color;
+    /**
+     * 设置字体颜色
+     * set font color
+     *
+     * @param indexedColors {@link IndexedColors}
+     */
+    public void setColor(IndexedColors indexedColors) {
+        this.color = indexedColors.getIndex();
+        this.themeColor = indexedColors.getIndex();
     }
 
     public int getFamily() {
@@ -142,7 +151,13 @@ public class Font implements Serializable {
         return underline;
     }
 
-    public void setUnderline(byte underline) {
-        this.underline = underline;
+    /**
+     * 设置字体下划线
+     * set font under line
+     *
+     * @param fontUnderline {@link FontScheme}
+     */
+    public void setUnderline(FontUnderline fontUnderline) {
+        this.underline = fontUnderline.getByteValue();
     }
 }
