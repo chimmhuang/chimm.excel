@@ -121,6 +121,9 @@
 
 - `setBorderStyle(int firstRowNum, int lastRowNum, String firstColName, String lastColName, BorderStyle borderStyle, BorderPositionEnum borderPositionEnum)`    
     设置指定范围的边框的样式，你可以更改边框的样式，如粗线、虚线等
+  
+- `setSheetName(String sheetName)`
+    设置 sheet 页名称
     
 ### 3.4 Row - 行对象
 该对象对应的是 excel 的行，提供了一些对行进行操作的方法
@@ -178,6 +181,9 @@ public void testFillInTable() throws Exception {
 
     // 获取指定的 sheet 页（该对象即是我们设置好的表格模板）
     SheetTable table = excelWorkbook.getSheet(0);
+
+    // 设置 自定义 sheet 页名称
+    table.setSheetName("成绩表");
 
     // 封装表格数据对象
     SchoolReportData tableData = new SchoolReportData();

@@ -58,7 +58,7 @@ public class SheetTable implements Iterable<Cell> {
      * 对应 excel 的 sheet 名称
      * sheet name in excel
      */
-    private final String sheetName;
+    private String sheetName;
 
     /**
      * excel 表格的最后一行行号
@@ -106,6 +106,10 @@ public class SheetTable implements Iterable<Cell> {
 
     public String getSheetName() {
         return sheetName;
+    }
+
+    public void setSheetName(String sheetName) {
+        this.sheetName = sheetName;
     }
 
     public int getLastRowNum() {
