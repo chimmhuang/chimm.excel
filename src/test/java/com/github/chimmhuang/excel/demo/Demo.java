@@ -39,6 +39,9 @@ public class Demo {
         ExcelWorkbook excelWorkbook = ExcelHelper.createWorkbook(bytes);
         SheetTable table = excelWorkbook.getSheet(0);
 
+        // 设置 自定义 sheet 页名称
+        table.setSheetName("成绩表");
+
         // 定义 excel 表格数据
         SchoolReportData tableData = new SchoolReportData();
 

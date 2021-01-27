@@ -10,7 +10,7 @@
 </p>
 <p>
 	<img src='https://img.shields.io/badge/License-Apache--2.0-brightgreen' alt='lisence'></img>
-	<img src="https://img.shields.io/badge/version-v1.2.0-orange" alt='version'></img>
+	<img src="https://img.shields.io/badge/version-v1.3.0-orange" alt='version'></img>
 	<img src="https://img.shields.io/badge/JDK-1.8-9cf" alt='jdk'></img>
 	<img src="https://img.shields.io/badge/Apache--POI-4.1.2-blue" alt='poi'></img>
 	<img src="https://img.shields.io/badge/Antlr-4-critical" alt='antlr4'></img>
@@ -57,8 +57,8 @@
 ## 2. 功能展示
 
 我提供了一个 `demo` 测试类。  
-模板具体位置： `src/test/resources/demo.xlsx`   
-测试类的具体位置：`src/test/java/../demo/Demo.java`
+模板具体位置： [`src/test/resources/demo.xlsx`](./src/test/resources/demo.xlsx)   
+测试类的具体位置：[`src/test/java/../demo/Demo.java`](./src/test/java/com/github/chimmhuang/excel/demo/Demo.java)
 
 **模板文件：**
 ![模板文件](./images/template.png)
@@ -121,6 +121,9 @@
 
 - `setBorderStyle(int firstRowNum, int lastRowNum, String firstColName, String lastColName, BorderStyle borderStyle, BorderPositionEnum borderPositionEnum)`    
     设置指定范围的边框的样式，你可以更改边框的样式，如粗线、虚线等
+  
+- `setSheetName(String sheetName)`
+    设置 sheet 页名称
     
 ### 3.4 Row - 行对象
 该对象对应的是 excel 的行，提供了一些对行进行操作的方法
@@ -151,14 +154,14 @@
 ## 4. 使用说明
 ### 4.1 配置模板  
 模板配置，使用 美元符号加上大括号来定义变量即可，如： `${demo.value}`。  
-我在该项目中提功能 demo 使用的模板，基本满足绝大部分场景：`src/test/resources/demo.xlsx`
+我在该项目中提功能 demo 使用的模板，基本满足绝大部分场景：[`src/test/resources/demo.xlsx`](./src/test/resources/demo.xlsx)
 
 ### 4.2 导入坐标
 ```xml
 <dependency>
     <groupId>com.github.chimmhuang</groupId>
     <artifactId>chimm.excel</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
@@ -178,6 +181,9 @@ public void testFillInTable() throws Exception {
 
     // 获取指定的 sheet 页（该对象即是我们设置好的表格模板）
     SheetTable table = excelWorkbook.getSheet(0);
+
+    // 设置 自定义 sheet 页名称
+    table.setSheetName("成绩表");
 
     // 封装表格数据对象
     SchoolReportData tableData = new SchoolReportData();
