@@ -130,7 +130,7 @@ public class Cell implements Serializable {
         this.hyperlink = hyperlink;
         this.hyperlinkType = hyperlinkType;
         this.cellStyle.getFont().setUnderline(fontUnderline);
-        this.cellStyle.getFont().setColor(IndexedColors.BLUE);
+        this.cellStyle.getFont().setColor(IndexedColors.BLUE1);
     }
 
 

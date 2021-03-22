@@ -135,8 +135,8 @@ public class Demo {
         ExcelHelper.fillInData(table, tableData);
 
 
-        // 获取转换后的二进制
-        byte[] bytes1 = ExcelHelper.convert2Byte(table);
+        // 获取转换后的二进制（支持多 sheet 导出）
+        byte[] bytes1 = ExcelHelper.convert2Byte(table, excelWorkbook.getSheet(1));
 
         // 获取桌面路径
         FileSystemView fsv = FileSystemView.getFileSystemView();
