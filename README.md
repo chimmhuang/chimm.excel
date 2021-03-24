@@ -10,7 +10,7 @@
 </p>
 <p>
 	<img src='https://img.shields.io/badge/License-Apache--2.0-brightgreen' alt='lisence'></img>
-	<img src="https://img.shields.io/badge/version-v1.3.0-orange" alt='version'></img>
+	<img src="https://img.shields.io/badge/version-v1.4.0-orange" alt='version'></img>
 	<img src="https://img.shields.io/badge/JDK-1.8-9cf" alt='jdk'></img>
 	<img src="https://img.shields.io/badge/Apache--POI-4.1.2-blue" alt='poi'></img>
 	<img src="https://img.shields.io/badge/Antlr-4-critical" alt='antlr4'></img>
@@ -161,7 +161,7 @@
 <dependency>
     <groupId>com.github.chimmhuang</groupId>
     <artifactId>chimm.excel</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 
