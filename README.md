@@ -10,7 +10,7 @@
 </p>
 <p>
 	<img src='https://img.shields.io/badge/License-Apache--2.0-brightgreen' alt='lisence'></img>
-	<img src="https://img.shields.io/badge/version-v1.4.0-orange" alt='version'></img>
+	<img src="https://img.shields.io/badge/version-v1.4.1-orange" alt='version'></img>
 	<img src="https://img.shields.io/badge/JDK-1.8-9cf" alt='jdk'></img>
 	<img src="https://img.shields.io/badge/Apache--POI-4.1.2-blue" alt='poi'></img>
 	<img src="https://img.shields.io/badge/Antlr-4-critical" alt='antlr4'></img>
@@ -45,7 +45,7 @@
    
 5. `Chimm.Excel` 功能简介
 	- [x] 导出excel二进制文件
-      - [x] 支持多 `sheet` 页导出（v1.4.0）
+      - [x] 支持多 `sheet` 页导出（v1.4.1）
 	- [x] 根据模板中的变量，将值写入
 	- [x] 支持公式
     	- [x] 支持带变量的公式，如：`SUM(A1,A2,${demo.value})`
@@ -162,7 +162,7 @@
 <dependency>
     <groupId>com.github.chimmhuang</groupId>
     <artifactId>chimm.excel</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
 </dependency>
 ```
 
