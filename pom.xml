@@ -51,6 +51,8 @@
 		<!-- common -->
 		<commons-lang3.version>3.11</commons-lang3.version>
 
+		<!-- test -->
+		<junit.version>4.13</junit.version>
 	</properties>
 
 	<dependencies>
@@ -70,7 +72,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 
