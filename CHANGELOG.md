@@ -1,3 +1,15 @@
+# [](https://github.com/chimmhuang/chimm.excel/compare/v1.3.0...v) (2021-03-25)
+
+
+### Bug Fixes
+
+* 修复 list 可能存在取值超出索引报错的问题 ([aa92992](https://github.com/chimmhuang/chimm.excel/comm2840c7a5c98a5322d070802160))
+
+
+### Features
+
+* 支持多个 sheet 表格导出 ([5b86cf1](https://gitee.com/chimmhuang/chimm.excel/commit/5b86cf1896a060f1d8d2d39fd4e6366a)), closes [#I3C8SY](https://gitee.com/chimmhuang/chimm.excel/issues/I3C8SY)
+
 # [](https://github.com/chimmhuang/chimm.excel/compare/v1.1.0...v) (2021-01-27)
 
 
