@@ -9,7 +9,7 @@ import com.github.chimmhuang.excel.tablemodel.SheetTable;
 import com.github.chimmhuang.excel.school.ClassScore;
 import com.github.chimmhuang.excel.school.GradesRanking;
 import com.github.chimmhuang.excel.school.SchoolReportData;
-import org.apache.commons.io.FileUtils;
+import com.github.chimmhuang.excel.util.FileUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.junit.Test;
 
@@ -135,8 +135,8 @@ public class Demo {
         ExcelHelper.fillInData(table, tableData);
 
 
-        // 获取转换后的二进制
-        byte[] bytes1 = ExcelHelper.convert2Byte(table);
+        // 获取转换后的二进制（支持多 sheet 导出）
+        byte[] bytes1 = ExcelHelper.convert2Byte(table, excelWorkbook.getSheet(1));
 
         // 获取桌面路径
         FileSystemView fsv = FileSystemView.getFileSystemView();

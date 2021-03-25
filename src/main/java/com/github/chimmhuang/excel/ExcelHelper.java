@@ -136,205 +136,210 @@ public class ExcelHelper {
      */
     public static void fillInData(SheetTable table, Object data) {
 
-        DataVariableParserVisitor visitor = new DataVariableParserVisitor(data);
+		DataVariableParserVisitor visitor = new DataVariableParserVisitor(data);
 
-        for (Cell cell : table) {
-            Object value = cell.getValue();
-            CellType cellType = cell.getCellType();
+		for (Cell cell : table) {
+			Object value = cell.getValue();
+			CellType cellType = cell.getCellType();
 
-            if (cellType.equals(CellType.FORMULA) && value != null) {
-                // insert formula
-                VariableParserLexer lexer = new VariableParserLexer(CharStreams.fromString(value.toString()));
-                CommonTokenStream tokens = new CommonTokenStream(lexer);
+			if (cellType.equals(CellType.FORMULA) && value != null) {
+				// insert formula
+				VariableParserLexer lexer = new VariableParserLexer(CharStreams.fromString(value.toString()));
+				CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-                // syntax analysis
-                VariableParserParser parser = new VariableParserParser(tokens);
+				// syntax analysis
+				VariableParserParser parser = new VariableParserParser(tokens);
 
-                String newFormula = (String) parser.expr().accept(visitor);
+				String newFormula = (String) parser.expr().accept(visitor);
 
-                cell.setFormula(newFormula);
-            } else if (value instanceof String && ((String) value).startsWith("$")) {
-                // insert value
-                Object propValue = parseCellVariable(data, (String) value);
-                cell.setValue(propValue);
-            }
-        }
-    }
+				cell.setFormula(newFormula);
+			} else if (value instanceof String && ((String) value).startsWith("$")) {
+				// insert value
+				Object propValue = parseCellVariable(data, (String) value);
+				cell.setValue(propValue);
+			}
+		}
+	}
 
     /**
      * 将 sheet 对象转换为 excel 二进制文件
      * convert excel table{@link SheetTable} to byte
      *
-     * @param table sheet table
+     * @param tables sheet table array
      * @return excel binary file
      */
-    public static byte[] convert2Byte(SheetTable table) {
+    public static byte[] convert2Byte(SheetTable... tables) {
 
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
-        XSSFSheet xssfSheet = xssfWorkbook.createSheet(table.getSheetName());
-        XSSFCreationHelper xssfCreationHelper = new XSSFCreationHelper(xssfWorkbook);
 
-        // set sheet style
-        Map<Integer, Integer> colWidthMap = table.getColWidthMap();
-        colWidthMap.forEach(xssfSheet::setColumnWidth);
+        for (SheetTable table : tables) {
+            XSSFSheet xssfSheet = xssfWorkbook.createSheet(table.getSheetName());
+            XSSFCreationHelper xssfCreationHelper = new XSSFCreationHelper(xssfWorkbook);
 
-        Iterator<Row> rowIterator = table.rowIterator();
-        while (rowIterator.hasNext()) {
-            Row row = rowIterator.next();
-            org.apache.poi.ss.usermodel.Row xssfRow = getOrCreateRow(row.getRowNum(), xssfSheet);
+            // set sheet style
+            Map<Integer, Integer> colWidthMap = table.getColWidthMap();
+            colWidthMap.forEach(xssfSheet::setColumnWidth);
 
-            // set row style
-            xssfRow.setHeight(row.getHeight());
-            xssfRow.setHeightInPoints(row.getHeightInPoints());
-            xssfRow.setZeroHeight(row.getZeroHeight());
+            Iterator<Row> rowIterator = table.rowIterator();
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                org.apache.poi.ss.usermodel.Row xssfRow = getOrCreateRow(row.getRowNum(), xssfSheet);
 
-            for (Cell cell : row) {
-                CellType cellType = cell.getCellType();
-                org.apache.poi.ss.usermodel.Cell xssfCell = xssfRow.createCell(getColIndex(cell.getCol()), cellType);
+                // set row style
+                xssfRow.setHeight(row.getHeight());
+                xssfRow.setHeightInPoints(row.getHeightInPoints());
+                xssfRow.setZeroHeight(row.getZeroHeight());
 
-                Object value = cell.getValue();
+                for (Cell cell : row) {
+                    CellType cellType = cell.getCellType();
+                    org.apache.poi.ss.usermodel.Cell xssfCell = xssfRow.createCell(getColIndex(cell.getCol()), cellType);
 
-                // set cell value
-                switch (cellType) {
-                    case BLANK:
-                        xssfCell.setBlank();
-                        break;
-                    case FORMULA:
-                        if (value != null) {
-                            String formula = value.toString().replace("=", "");
-                            xssfCell.setCellFormula(formula);
-                        }
-                        break;
-                    default:
-                        if (value != null) {
-                            switch (value.getClass().getName()) {
-                                case "java.lang.Integer":
-                                    xssfCell.setCellValue((Integer) value);
-                                    break;
-                                case "java.lang.Double":
-                                    xssfCell.setCellValue((Double) value);
-                                    break;
-                                case "java.math.BigDecimal":
-                                    xssfCell.setCellValue(((BigDecimal) value).doubleValue());
-                                    break;
-                                case "java.lang.String":
-                                    xssfCell.setCellValue(value.toString());
-                                    break;
-                                case "java.lang.Boolean":
-                                    xssfCell.setCellValue((Boolean) value);
-                                    break;
-                                case "java.util.Date":
-                                    xssfCell.setCellValue((Date) value);
-                                    break;
-                                case "java.util.Calendar":
-                                    xssfCell.setCellValue((Calendar) value);
-                                    break;
-                                case "java.time.LocalDate":
-                                    xssfCell.setCellValue((LocalDate) value);
-                                    break;
-                                case "java.time.LocalDateTime":
-                                    xssfCell.setCellValue((LocalDateTime) value);
-                                    break;
-                                case "org.apache.poi.ss.usermodel.RichTextString":
-                                    xssfCell.setCellValue((RichTextString) value);
-                                    break;
-                                default:
-                                    break;
+                    Object value = cell.getValue();
+
+                    // set cell value
+                    switch (cellType) {
+                        case BLANK:
+                            xssfCell.setBlank();
+                            break;
+                        case FORMULA:
+                            if (value != null) {
+                                String formula = value.toString().replace("=", "");
+                                xssfCell.setCellFormula(formula);
                             }
-                        }
-                        break;
-                }
+                            break;
+                        default:
+                            if (value != null) {
+                                switch (value.getClass().getName()) {
+                                    case "java.lang.Integer":
+                                        xssfCell.setCellValue((Integer) value);
+                                        break;
+                                    case "java.lang.Double":
+                                        xssfCell.setCellValue((Double) value);
+                                        break;
+                                    case "java.math.BigDecimal":
+                                        xssfCell.setCellValue(((BigDecimal) value).doubleValue());
+                                        break;
+                                    case "java.lang.String":
+                                        xssfCell.setCellValue(value.toString());
+                                        break;
+                                    case "java.lang.Boolean":
+                                        xssfCell.setCellValue((Boolean) value);
+                                        break;
+                                    case "java.util.Date":
+                                        xssfCell.setCellValue((Date) value);
+                                        break;
+                                    case "java.util.Calendar":
+                                        xssfCell.setCellValue((Calendar) value);
+                                        break;
+                                    case "java.time.LocalDate":
+                                        xssfCell.setCellValue((LocalDate) value);
+                                        break;
+                                    case "java.time.LocalDateTime":
+                                        xssfCell.setCellValue((LocalDateTime) value);
+                                        break;
+                                    case "org.apache.poi.ss.usermodel.RichTextString":
+                                        xssfCell.setCellValue((RichTextString) value);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            break;
+                    }
 
-                // set cell style
-                org.apache.poi.ss.usermodel.CellStyle xssfCellStyle = toExcelCellStyle(xssfWorkbook, cell.getCellStyle());
-                xssfCell.setCellStyle(xssfCellStyle);
+                    // set cell style
+                    org.apache.poi.ss.usermodel.CellStyle xssfCellStyle = toExcelCellStyle(xssfWorkbook, cell.getCellStyle());
+                    xssfCell.setCellStyle(xssfCellStyle);
 
-                // set merged region
-                MergedRegion mergedRegion = cell.getMergedRegion();
-                if (mergedRegion != null) {
-                    CellRangeAddress cellRangeAddress = new CellRangeAddress(mergedRegion.getFirstRowNum() - 1, mergedRegion.getLastRowNum() - 1, getColIndex(mergedRegion.getFirstColName()), getColIndex(mergedRegion.getLastColName()));
-                    xssfSheet.addMergedRegion(cellRangeAddress);
-                }
+                    // set merged region
+                    MergedRegion mergedRegion = cell.getMergedRegion();
+                    if (mergedRegion != null) {
+                        CellRangeAddress cellRangeAddress = new CellRangeAddress(mergedRegion.getFirstRowNum() - 1, mergedRegion.getLastRowNum() - 1, getColIndex(mergedRegion.getFirstColName()), getColIndex(mergedRegion.getLastColName()));
+                        xssfSheet.addMergedRegion(cellRangeAddress);
+                    }
 
-                // set hyper link
-                String hyperlink = cell.getHyperlink();
-                HyperlinkType hyperlinkType = cell.getHyperlinkType();
-                if (hyperlink != null && !"".equals(hyperlink) && hyperlinkType != null) {
-                    XSSFHyperlink link = xssfCreationHelper.createHyperlink(hyperlinkType);
-                    link.setAddress(hyperlink);
-                    xssfCell.setHyperlink(link);
+                    // set hyper link
+                    String hyperlink = cell.getHyperlink();
+                    HyperlinkType hyperlinkType = cell.getHyperlinkType();
+                    if (hyperlink != null && !"".equals(hyperlink) && hyperlinkType != null) {
+                        XSSFHyperlink link = xssfCreationHelper.createHyperlink(hyperlinkType);
+                        link.setAddress(hyperlink);
+                        xssfCell.setHyperlink(link);
+                    }
                 }
             }
         }
 
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-            // convert xssfWorkbook to binary file
-            xssfWorkbook.setForceFormulaRecalculation(true);
-            xssfWorkbook.write(bos);
-            return bos.toByteArray();
-        } catch (IOException e) {
-            throw new ConvertException(e);
-        }
-    }
 
-    /**
-     * 转换 cellStyle 对象为 Apache poi 的对象
-     * convert {@link CellStyle} to {@link org.apache.poi.ss.usermodel.CellStyle}
-     */
-    private static org.apache.poi.ss.usermodel.CellStyle toExcelCellStyle(XSSFWorkbook xssfWorkbook, CellStyle cellStyle) {
-        XSSFCellStyle xssfCellStyle = xssfWorkbook.createCellStyle();
+		try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+			// convert xssfWorkbook to binary file
+			xssfWorkbook.setForceFormulaRecalculation(true);
+			xssfWorkbook.write(bos);
+			return bos.toByteArray();
+		} catch (IOException e) {
+			throw new ConvertException(e);
+		}
+	}
 
-        xssfCellStyle.setBorderTop(cellStyle.getBorderTopEnum());
-        xssfCellStyle.setBorderBottom(cellStyle.getBorderBottomEnum());
-        xssfCellStyle.setBorderLeft(cellStyle.getBorderLeftEnum());
-        xssfCellStyle.setBorderRight(cellStyle.getBorderRightEnum());
+	/**
+	 * 转换 cellStyle 对象为 Apache poi 的对象 convert {@link CellStyle} to
+	 * {@link org.apache.poi.ss.usermodel.CellStyle}
+	 */
+	private static org.apache.poi.ss.usermodel.CellStyle toExcelCellStyle(XSSFWorkbook xssfWorkbook,
+			CellStyle cellStyle) {
+		XSSFCellStyle xssfCellStyle = xssfWorkbook.createCellStyle();
 
-        xssfCellStyle.setTopBorderColor(cellStyle.getTopBorderColor());
-        xssfCellStyle.setBottomBorderColor(cellStyle.getBottomBorderColor());
-        xssfCellStyle.setLeftBorderColor(cellStyle.getLeftBorderColor());
-        xssfCellStyle.setRightBorderColor(cellStyle.getRightBorderColor());
+		xssfCellStyle.setBorderTop(cellStyle.getBorderTopEnum());
+		xssfCellStyle.setBorderBottom(cellStyle.getBorderBottomEnum());
+		xssfCellStyle.setBorderLeft(cellStyle.getBorderLeftEnum());
+		xssfCellStyle.setBorderRight(cellStyle.getBorderRightEnum());
 
-        xssfCellStyle.setFillBackgroundColor(cellStyle.getFillBackgroundXSSFColor());
-        xssfCellStyle.setFillForegroundColor(cellStyle.getFillForegroundXSSFColor());
-        xssfCellStyle.setFillPattern(cellStyle.getFillPattern());
+		xssfCellStyle.setTopBorderColor(cellStyle.getTopBorderColor());
+		xssfCellStyle.setBottomBorderColor(cellStyle.getBottomBorderColor());
+		xssfCellStyle.setLeftBorderColor(cellStyle.getLeftBorderColor());
+		xssfCellStyle.setRightBorderColor(cellStyle.getRightBorderColor());
 
-        xssfCellStyle.setDataFormat(cellStyle.getDataFormat());
-        xssfCellStyle.setHidden(cellStyle.getHidden());
-        xssfCellStyle.setLocked(cellStyle.getLocked());
+		xssfCellStyle.setFillBackgroundColor(cellStyle.getFillBackgroundXSSFColor());
+		xssfCellStyle.setFillForegroundColor(cellStyle.getFillForegroundXSSFColor());
+		xssfCellStyle.setFillPattern(cellStyle.getFillPattern());
 
-        xssfCellStyle.setIndention(cellStyle.getIndention());
-        xssfCellStyle.setWrapText(cellStyle.getWrapText());
-        xssfCellStyle.setShrinkToFit(cellStyle.getShrinkToFit());
-        xssfCellStyle.setReadingOrder(cellStyle.getReadingOrder());
-        xssfCellStyle.setQuotePrefixed(cellStyle.getQuotePrefixed());
-        xssfCellStyle.setRotation(cellStyle.getRotation());
+		xssfCellStyle.setDataFormat(cellStyle.getDataFormat());
+		xssfCellStyle.setHidden(cellStyle.getHidden());
+		xssfCellStyle.setLocked(cellStyle.getLocked());
 
-        xssfCellStyle.setAlignment(cellStyle.getAlignmentEnum());
-        xssfCellStyle.setVerticalAlignment(cellStyle.getVerticalAlignmentEnum());
+		xssfCellStyle.setIndention(cellStyle.getIndention());
+		xssfCellStyle.setWrapText(cellStyle.getWrapText());
+		xssfCellStyle.setShrinkToFit(cellStyle.getShrinkToFit());
+		xssfCellStyle.setReadingOrder(cellStyle.getReadingOrder());
+		xssfCellStyle.setQuotePrefixed(cellStyle.getQuotePrefixed());
+		xssfCellStyle.setRotation(cellStyle.getRotation());
 
-        Font font = cellStyle.getFont();
-        if (font != null) {
-            XSSFFont xssfFont = xssfWorkbook.createFont();
+		xssfCellStyle.setAlignment(cellStyle.getAlignmentEnum());
+		xssfCellStyle.setVerticalAlignment(cellStyle.getVerticalAlignmentEnum());
 
-            xssfFont.setBold(font.getBold());
-            xssfFont.setCharSet(font.getCharSet());
-            xssfFont.setColor(font.getColor());
-            xssfFont.setFamily(font.getFamily());
-            xssfFont.setFontHeight(font.getFontHeight());
-            xssfFont.setFontHeightInPoints(font.getFontHeightInPoints());
-            xssfFont.setFontName(font.getFontName());
-            xssfFont.setItalic(font.getItalic());
-            xssfFont.setScheme(font.getScheme());
-            xssfFont.setStrikeout(font.getStrikeout());
-            xssfFont.setThemeColor(font.getThemeColor());
-            xssfFont.setTypeOffset(font.getTypeOffset());
-            xssfFont.setUnderline(font.getUnderline());
+		Font font = cellStyle.getFont();
+		if (font != null) {
+			XSSFFont xssfFont = xssfWorkbook.createFont();
 
-            xssfCellStyle.setFont(xssfFont);
-        }
+			xssfFont.setBold(font.getBold());
+			xssfFont.setCharSet(font.getCharSet());
+			xssfFont.setColor(font.getColor());
+			xssfFont.setFamily(font.getFamily());
+			xssfFont.setFontHeight(font.getFontHeight());
+			xssfFont.setFontHeightInPoints(font.getFontHeightInPoints());
+			xssfFont.setFontName(font.getFontName());
+			xssfFont.setItalic(font.getItalic());
+			xssfFont.setScheme(font.getScheme());
+			xssfFont.setStrikeout(font.getStrikeout());
+			xssfFont.setThemeColor(font.getThemeColor());
+			xssfFont.setTypeOffset(font.getTypeOffset());
+			xssfFont.setUnderline(font.getUnderline());
 
-        return xssfCellStyle;
-    }
+			xssfCellStyle.setFont(xssfFont);
+		}
+
+		return xssfCellStyle;
+	}
 
     /**
      * 获取 XSSFRow 对象，若不存在，则创建一个
@@ -366,31 +371,35 @@ public class ExcelHelper {
         VariableParserLexer lexer = new VariableParserLexer(CharStreams.fromString(cellVariableName));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-        // syntax analysis
-        VariableParserParser parser = new VariableParserParser(tokens);
+		// syntax analysis
+		VariableParserParser parser = new VariableParserParser(tokens);
 
-        Object propValue = data;
-        for (VariableContext variableContext : parser.variableExpr().variable()) {
-            String variableName = variableContext.IDENTIFIER().getText();
-            propValue = getPropValue(propValue, variableName);
-            if (propValue == null) {
-                return null;
-            }
+		Object propValue = data;
+		for (VariableContext variableContext : parser.variableExpr().variable()) {
+			String variableName = variableContext.IDENTIFIER().getText();
+			propValue = getPropValue(propValue, variableName);
+			if (propValue == null) {
+				return null;
+			}
 
-            // if the prop instanceof List, then get the value under a specific index.
-            List<ArrayIdxContext> arrayIdxContexts = variableContext.arrayIdx();
-            for (ArrayIdxContext arrayIdxContext : arrayIdxContexts) {
-                int index = Integer.parseInt(arrayIdxContext.NUMBER().getSymbol().getText());
-                if (propValue instanceof List) {
-                    List propValueList = (List) propValue;
-                    propValue = propValueList.get(index);
-                } else {
-                    throw new IllegalArgumentException(propValue.getClass().getName() + "must be List.");
-                }
-            }
-        }
-        return propValue;
-    }
+			// if the prop instanceof List, then get the value under a specific index.
+			List<ArrayIdxContext> arrayIdxContexts = variableContext.arrayIdx();
+			for (ArrayIdxContext arrayIdxContext : arrayIdxContexts) {
+				int index = Integer.parseInt(arrayIdxContext.NUMBER().getSymbol().getText());
+				if (propValue instanceof List) {
+					List propValueList = (List) propValue;
+                    try {
+                        propValue = propValueList.get(index);
+                    } catch (IndexOutOfBoundsException e) {
+                        propValue = null;
+                    }
+				} else {
+					throw new IllegalArgumentException(propValue.getClass().getName() + "must be List.");
+				}
+			}
+		}
+		return propValue;
+	}
 
     /**
      * 获取表格数据对应变量的值
@@ -404,33 +413,33 @@ public class ExcelHelper {
      */
     private static Object getPropValue(Object obj, String propName) {
 
-        if (obj == null || propName == null) {
-            return null;
-        }
+		if (obj == null || propName == null) {
+			return null;
+		}
 
-        if (obj instanceof Map) {
-            Map mapObj = (Map) obj;
-            return mapObj.get(propName);
-        }
+		if (obj instanceof Map) {
+			Map mapObj = (Map) obj;
+			return mapObj.get(propName);
+		}
 
-        Field declaredField = null;
-        try {
-            declaredField = obj.getClass().getDeclaredField(propName);
-        } catch (NoSuchFieldException e) {
-            // try to get the parent class
-            try {
-                declaredField = obj.getClass().getSuperclass().getDeclaredField(propName);
-            } catch (NoSuchFieldException noSuchFieldException) {
-                throw new ReflectionException(noSuchFieldException);
-            }
-        }
+		Field declaredField = null;
+		try {
+			declaredField = obj.getClass().getDeclaredField(propName);
+		} catch (NoSuchFieldException e) {
+			// try to get the parent class
+			try {
+				declaredField = obj.getClass().getSuperclass().getDeclaredField(propName);
+			} catch (NoSuchFieldException noSuchFieldException) {
+				throw new ReflectionException(noSuchFieldException);
+			}
+		}
 
-        try {
-            PropertyDescriptor pd = new PropertyDescriptor(declaredField.getName(), obj.getClass());
-            Method method = pd.getReadMethod();
-            return method.invoke(obj);
-        } catch (Exception e) {
-            throw new InvokeMethodException(e);
-        }
-    }
+		try {
+			PropertyDescriptor pd = new PropertyDescriptor(declaredField.getName(), obj.getClass());
+			Method method = pd.getReadMethod();
+			return method.invoke(obj);
+		} catch (Exception e) {
+			throw new InvokeMethodException(e);
+		}
+	}
 }
