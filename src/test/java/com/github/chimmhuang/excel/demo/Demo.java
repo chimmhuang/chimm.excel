@@ -9,7 +9,7 @@ import com.github.chimmhuang.excel.tablemodel.SheetTable;
 import com.github.chimmhuang.excel.school.ClassScore;
 import com.github.chimmhuang.excel.school.GradesRanking;
 import com.github.chimmhuang.excel.school.SchoolReportData;
-import org.apache.commons.io.FileUtils;
+import com.github.chimmhuang.excel.util.FileUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.github.chimmhuang.excel.demo;
+package com.github.chimmhuang.excel.demo_gitee_time_end;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,12 +9,10 @@ import java.util.Map;
 
 import javax.swing.filechooser.FileSystemView;
 
-import org.apache.commons.io.FileUtils;
-
 import com.github.chimmhuang.excel.ExcelHelper;
-import com.github.chimmhuang.excel.parser.MapParser;
 import com.github.chimmhuang.excel.tablemodel.ExcelWorkbook;
 import com.github.chimmhuang.excel.tablemodel.SheetTable;
+import com.github.chimmhuang.excel.util.FileUtils;
 
 /**
  * @author Chimm Huang
@@ -71,7 +69,7 @@ public class Demo2 {
 		map.put("score", score);
 		map.put("title", "测试");
 		// 将变量的值填充进表格
-		ExcelHelper.fillInMapData(table, map);
+		ExcelHelper.fillInData(table, map);
 
 		// 获取转换后的二进制
 		byte[] bytes1 = ExcelHelper.convert2Byte(table);
