@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.swing.filechooser.FileSystemView;
 
 import com.github.chimmhuang.excel.ExcelHelper;
+import com.github.chimmhuang.excel.parser.MapParser;
 import com.github.chimmhuang.excel.tablemodel.ExcelWorkbook;
 import com.github.chimmhuang.excel.tablemodel.SheetTable;
 import com.github.chimmhuang.excel.util.FileUtils;
