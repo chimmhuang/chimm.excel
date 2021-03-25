@@ -1,7 +1,6 @@
 package com.github.chimmhuang.excel;
 
 import com.github.chimmhuang.excel.parser.DataVariableParserVisitor;
-import com.github.chimmhuang.excel.parser.MapParser;
 import com.github.chimmhuang.excel.parser.VariableParserLexer;
 import com.github.chimmhuang.excel.parser.VariableParserParser;
 import com.github.chimmhuang.excel.tablemodel.Cell;
@@ -161,22 +160,6 @@ public class ExcelHelper {
 			}
 		}
 	}
-
-    /**
-     * 将变量填充入表格 fill variables into excel table
-     *
-     * @param table excel sheet table
-     * @param data  table data
-     */
-    public static void fillInMapData(SheetTable table, MapParser mapData) {
-        for (Cell cell : table) {
-            Object value = cell.getValue();
-            if (value instanceof String && ((String) value).startsWith("$")) {
-                Object val = mapData.getObject(value.toString());
-                cell.setValue(val);
-            }
-        }
-    }
 
     /**
      * 将 sheet 对象转换为 excel 二进制文件
@@ -405,7 +388,11 @@ public class ExcelHelper {
 				int index = Integer.parseInt(arrayIdxContext.NUMBER().getSymbol().getText());
 				if (propValue instanceof List) {
 					List propValueList = (List) propValue;
-					propValue = propValueList.get(index);
+                    try {
+                        propValue = propValueList.get(index);
+                    } catch (IndexOutOfBoundsException e) {
+                        propValue = null;
+                    }
 				} else {
 					throw new IllegalArgumentException(propValue.getClass().getName() + "must be List.");
 				}
