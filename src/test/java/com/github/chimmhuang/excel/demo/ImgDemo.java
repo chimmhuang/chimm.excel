@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFShape;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.helpers.ColumnHelper;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
@@ -25,6 +26,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -54,9 +57,23 @@ public class ImgDemo {
 
 //        sheet.setColumnWidth(1, (int) (44.13 * 256));
         sheet.setColumnWidth(1, (int) (40 * 256  / Units.DEFAULT_CHARACTER_WIDTH));
+//        Class<? extends XSSFSheet> aClass = sheet.getClass();
+//        Field field = aClass.getDeclaredField("columnHelper");
+//        field.setAccessible(true);
+//
+//        ColumnHelper columnHelper = (ColumnHelper) field.get(sheet);
+//
+//        Method setColWidth = ColumnHelper.class.getMethod("setColWidth", long.class, double.class);
+//        float v = 40 / Units.DEFAULT_CHARACTER_WIDTH;
+//        System.out.println(v);
+//
+//        setColWidth.invoke(columnHelper, 1, (double) (40 / Units.DEFAULT_CHARACTER_WIDTH));
+//        Method setCustomWidth = ColumnHelper.class.getMethod("setCustomWidth", long.class, boolean.class);
+//        setCustomWidth.invoke(columnHelper, 1, true);
+
 //        sheet.addMergedRegion(new CellRangeAddress(1, 2, 1, 2));
 
-        XSSFClientAnchor clientAnchor = drawingPatriarch.createAnchor(0, 0, 0, 0, 1, 1, 2, 2);
+        XSSFClientAnchor clientAnchor = drawingPatriarch.createAnchor(0, 0, 0, 0, 1, 1, 3, 3);
         clientAnchor.setAnchorType(ClientAnchor.AnchorType.DONT_MOVE_AND_RESIZE);
         drawingPatriarch.createPicture(clientAnchor, picture);
 
