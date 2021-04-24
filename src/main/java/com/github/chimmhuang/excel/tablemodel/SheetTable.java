@@ -16,6 +16,9 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +77,12 @@ public class SheetTable implements Iterable<Cell> {
      * regex to match number
      */
     private final Pattern numberMatch = Pattern.compile("\\d+");
+
+    /**
+     * 图片列表
+     * picture list
+     */
+    private final List<Picture> pictureList = new ArrayList<>();
 
     public SheetTable(XSSFSheet xssfSheet) {
 
@@ -382,5 +391,15 @@ public class SheetTable implements Iterable<Cell> {
                                 cell.setCellStyle(cellStyle);
                             });
                 });
+    }
+
+    /**
+     * 添加图片
+     * add picture
+     *
+     * @param pictures picture array
+     */
+    public void addPicture(Picture... pictures) {
+        pictureList.addAll(Arrays.asList(pictures));
     }
 }

@@ -48,7 +48,6 @@ public class ImgDemo {
         int picture = workbook.addPicture(bytes, Workbook.PICTURE_TYPE_JPEG);
         fis.close();
 
-        XSSFCreationHelper creationHelper = workbook.getCreationHelper();
         XSSFSheet sheet = workbook.createSheet("test");
 
         XSSFDrawing drawingPatriarch = sheet.createDrawingPatriarch();
