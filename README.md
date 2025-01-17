@@ -3,7 +3,7 @@
 
 
 <div align="center">
-<img src="./images/icon.png" width="600px" height="150px" align="center"/>
+<img src="./images/icon.jpeg" width="600px" height="150px" align="center"/>
 <p>
     <img src="https://gitee.com/chimmhuang/chimm.excel/badge/star.svg?theme=dark" alt="gitee_star"/>
     <img src="https://gitee.com/chimmhuang/chimm.excel/badge/fork.svg?theme=dark" alt="gitee_fork"/>
